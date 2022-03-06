@@ -1,0 +1,162 @@
+-----MAIN BIOMES-----
+dunes - bloodkelp
+dunes - mushroomforest
+dunes - kelpforest
+dunes - safeshallows
+dunes - grassyplateaus
+dunes - bloodkelptrench
+dunes - seatreaderspath
+
+bloodkelp - dunes
+bloodkelp - mushroomforest
+bloodkelp - underwaterislands
+bloodkelp - mountains
+
+mountains - bloodkelp
+mountains - underwaterislands
+mountains - kelpforest
+mountains - mushroomforest
+mountains - bulbzone
+
+underwaterislands - bloodkelp
+underwaterislands - mountains
+underwaterislands - kelpforest
+underwaterislands - grassyplateaus
+underwaterislands - mushroomforest
+
+bulbzone - mountains
+bulbzone - mushroomforest
+bulbzone - crashzone
+
+mushroomforest - bloodkelp
+mushroomforest - dunes
+mushroomforest - kelpforest
+mushroomforest - grassyplateaus
+mushroomforest - underwaterislands
+mushroomforest - mountains
+mushroomforest - bulbzone
+mushroomforest - crashzone
+mushroomforest - shallows
+
+kelpforest - mountains
+kelpforest - mushroomforest
+kelpforest - grassyplateaus
+kelpforest - safeshallows
+kelpforest - underwaterislands
+kelpforest - crashzone
+kelpforest - cragfield
+kelpforest - grandreef
+kelpforest - sparsereef
+kelpforest - dunes
+
+grassyplateaus - underwaterislands
+grassyplateaus - mushroomforest
+grassyplateaus - kelpforest
+grassyplateaus - safeshallows
+grassyplateaus - cragfield
+grassyplateaus - crashzone
+grassyplateaus - dunes
+grassyplateaus - bloodkelptrench
+grassyplateaus - sparsereef
+
+crashzone - bulbzone
+crashzone - mushroomforest
+crashzone - safeshallows
+crashzone - kelpforest
+crashzone - grassyplateaus
+crashzone - cragfield
+
+cragfield - crashzone
+cragfield - grassyplateaus
+cragfield - kelpforest
+cragfield - grandreef
+
+grandreef - cragfield
+grandreef - kelpforest
+grandreef - sparsereef
+grandreef - seatreaderspath
+
+sparsereef - grassyplateaus
+sparsereef - kelpforest
+sparsereef - grandreef
+sparsereef - seatreaderspath
+sparsereef - bloodkelptrench
+
+seatreaderspath - dunes
+seatreaderspath - bloodkelptrench
+seatreaderspath - sparsereef
+seatreaderspath - grandreef
+
+bloodkelptrench - grassyplateaus
+bloodkelptrench - sparsereef
+bloodkelptrench - seatreaderspath
+bloodkelptrench - dunes
+
+-----ISLANDS-----
+mountains - mountainisland
+kelpforest - mountainisland
+mountainisland - mountains
+mountainisland - kelpforest
+
+grandreef - floatingisland
+sparsereef - floatingisland
+floatingisland - grandreef
+floatingisland - sparsereef
+
+-----JELLYSHROOM CAVE-----
+jellyshroomcave - grassyplateaus (x5)
+grassyplateaus - jellyshroomcave (x5)
+
+-----LOST RIVER-----
+mountains - lostriver / bulbzone - lostriver
+bloodkelp - lostriver
+bloodkelptrench - lostriver
+grandreef - lostriver
+inactivelavazone - lostriver (x2)
+
+lostriver - mountains / lostriver - bulbzone
+lostriver - bloodkelp
+lostriver - bloodkelptrench
+lostriver - grandreef
+lostriver - inactivelavazone (x2)
+
+-----LAVA ZONE-----
+inactivelavazone - lostriver (x2)
+inactivelavazone - lavalakes (x2)
+
+lostriver - inactivelavazone (x2)
+lavalakes - inactivelavazone (x2)
+
+-----DEGASI BASES-----
+jellyshroomcave - degasibase
+floatingisland - degasibase (x3)
+grandreef - degasibase
+
+degasibase - jellyshroomcave
+degasibase - floatingisland (x3)
+degasibase - grandreef
+
+-----ALIEN BASES-----
+dunes - alienbase
+bloodkelp - alienbase
+mushroomforest - alienbase
+bulbzone - alienbase
+sparsereef - alienbase
+cragfield - alienbase
+mountainisland - alienbase (x2)
+floatingisland - alienbase
+lostriver - alienbase (x2)
+inactivelavazone - alienbase
+lavalakes - alienbase
+
+alienbase - dunes
+alienbase - bloodkelp
+alienbase - mushroomforest
+alienbase - bulbzone
+alienbase - sparsereef
+alienbase - cragfield
+alienbase - mountainisland (x2)
+alienbase - floatingisland
+alienbase - lostriver (x2)
+alienbase - inactivelavazone
+alienbase - lavalakes
