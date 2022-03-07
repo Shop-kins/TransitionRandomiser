@@ -20,13 +20,13 @@ namespace TransitionRandomiser.Player_Events
             try
             {
                 var main = Player.main;
-                var newBiome = main.GetBiomeString().ToLower();
-                if (!loadedIn && newBiome == "lifepod") //TODO DETECT GAME START BETTER
+                Biome newBiome = BiomeHandler.GetBiomeByGameID(main.GetBiomeString().ToLower());
+                if (!loadedIn && newBiome.GetName() == "lifepod") //TODO DETECT GAME START BETTER
                 {
                     Console.WriteLine("Loaded In");
                     loadedIn = true;
                 }
-                if (loadedIn)
+                if (loadedIn && newBiome != null)
                 {
                     if (TransitionHandler.GetProcessing()) //TODO DETECT TELEPORT COMPLETE BETTER
                     {
@@ -43,11 +43,11 @@ namespace TransitionRandomiser.Player_Events
                     else
                     {
                         {
-                            String currentBiome = TransitionHandler.GetCurrentBiome();
-                            if (currentBiome != newBiome && newBiome != "lifepod" && currentBiome != "lifepod" && !TransitionHandler.GetProcessing())
+                            Biome currentBiome = TransitionHandler.GetCurrentBiome();
+                            if (currentBiome.GetName() != newBiome.GetName() && newBiome.GetName() != "lifepod" && currentBiome.GetName() != "lifepod" && !TransitionHandler.GetProcessing())
                             {
                                 TransitionHandler.SetProcessing(true);
-                                Console.WriteLine("Detected Biome CHANGE FROM " + currentBiome + " TO " + newBiome);
+                                Console.WriteLine("Detected Biome CHANGE FROM " + currentBiome.GetName() + " TO " + newBiome.GetName());
                                 try
                                 {
                                     Console.WriteLine("PROCESSING Biome CHANGE!");

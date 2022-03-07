@@ -1,3 +1,33 @@
+-----BIOME NAMES (LOWERCASE)-----
+safeshallows
+grassyplateaus
+kelpforest
+jellyshroomcaves jellyshroomcaves_entrance
+dunes
+mushroomforest mushroomforest_cave mushroomforest_cave_dark mushroomforest_cave_light
+bloodkelptwo bloodkelptwo_cave
+mountains mountains_islandsurface_caveentrance mountains_island_teleporter
+underwaterislands
+kooshzone
+crashzone crashedship crashzone_trench generatorroom
+cragfield
+grandreef deepgrandreef
+sparsereef sparsereef_deep sparsereef_cave
+seatreaderpath
+bloodkelp bloodkelp_trench bloodkelp_cave bloodkelp_deeptrench
+floatingisland floatingislandcaveteleporter
+
+lostriver_corridor lostriver_canyon lostriver_skeletoncave lostriver_bonesfield lostriver_junction lostriver_treecove
+ilzcorridor ilzchamber lavapit ilzchamber_dragon ilzcastlechamber ilzcastletunnel
+lavafalls lavalakes
+
+precursorcache
+precursor_gun_moonpoolwater precursor_gun_outerrooms precursor_gun_innerrooms
+precursorcave_kooshzone precursorcave_cragfield precursorcave_mushroomforest
+precursor_lostriverbase
+precursor_lavacastlebase
+prison_upperroom prison_antechamber prison_upperroom prison_moonpool prison_aquarium_upper prison_aquarium
+
 -----MAIN BIOMES-----
 dunes - bloodkelp (-881, -270, 1375) (0.4, -0.8, 0.4)
 dunes - mushroomforest (-1220, -217, 682) (1, -0.1, -0.3)

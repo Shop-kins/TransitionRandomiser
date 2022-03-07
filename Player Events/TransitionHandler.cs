@@ -10,17 +10,17 @@ namespace TransitionRandomiser.Player_Events
     internal class TransitionHandler
     {
 
-        private static String CurrentBiome = "lifepod";
+        private static Biome CurrentBiome = BiomeHandler.LIFEPOD;
         private static Boolean Processing = false;
         private static Dictionary<Array, TeleportPosition> TransitionDictionary = new Dictionary<Array, TeleportPosition>()
         {
         };
-        internal static void SetCurrentBiome(String Biome)
+        internal static void SetCurrentBiome(Biome Biome)
         {
             CurrentBiome = Biome;
         }
 
-        internal static String GetCurrentBiome()
+        internal static Biome GetCurrentBiome()
         {
             return CurrentBiome;
         }
@@ -35,10 +35,9 @@ namespace TransitionRandomiser.Player_Events
             Processing = state;
         }
 
-        internal static TeleportPosition getTeleportPositionForBiomeTransfer(String newBiome)
+        internal static TeleportPosition getTeleportPositionForBiomeTransfer(Biome newBiome)
         {
-
-            String[] biomeTransfer = { CurrentBiome, newBiome };
+            Biome[] biomeTransfer = { CurrentBiome, newBiome };
             if (TransitionDictionary.ContainsKey(biomeTransfer))
             {
                 return TransitionDictionary[biomeTransfer];
