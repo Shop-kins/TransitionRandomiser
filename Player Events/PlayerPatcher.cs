@@ -5,72 +5,100 @@ using TransitionRandomiser.UI;
 namespace TransitionRandomiser.Player_Events
 {
 
-    [HarmonyPatch(typeof(Player))]
-    [HarmonyPatch("Update")]
-    internal class Player_Update_Patch
+    class PlayerPatcher
     {
+        private static Boolean isDead = true;
 
-        private static Boolean loadedIn = false;
-        private static int Cooldown = 120;
+        private static Biome lastFrameBiome = BiomeHandler.LIFEPOD;
+        private static long stabilisationCounter = 0;
 
-        [HarmonyPostfix]
-        public static void Postfix()
+        private static int stabilisationTime = 300;
+
+        [HarmonyPatch(typeof(Player))]
+        [HarmonyPatch("Update")]
+        internal class Player_Update_Patch
         {
-            CustomUI.Update();
 
-            try
+            [HarmonyPostfix]
+            public static void Postfix()
             {
-                var main = Player.main;
-                Biome newBiome = BiomeHandler.GetBiomeByGameID(main.GetBiomeString().ToLower());
-                if (!loadedIn && newBiome.GetName() == "lifepod") //TODO DETECT GAME START BETTER
+                CustomUI.SetBigText("");
+                CustomUI.SetFirstText("Current biome: " + TransitionHandler.GetCurrentBiome().GetName());
+                CustomUI.SetSecondText("Previous biome: " + TransitionHandler.GetPreviousBiome().GetName());
+
+                try
                 {
-                    Console.WriteLine("Loaded In");
-                    loadedIn = true;
-                }
-                if (loadedIn && newBiome != null)
-                {
-                    if (TransitionHandler.GetProcessing()) //TODO DETECT TELEPORT COMPLETE BETTER
+                    var main = Player.main;
+                    Biome newBiome = BiomeHandler.GetBiomeByGameID(main.GetBiomeString().ToLower());
+                    if (newBiome == null) return;
+
+                    // Stabilisation Counter
+                    if (lastFrameBiome.GetName() == newBiome.GetName())
                     {
-                        if(Cooldown < 1)
-                        {
-                            Cooldown = 120;
-                            TransitionHandler.SetCurrentBiome(newBiome, true);
-                            TransitionHandler.SetProcessing(false);
-                        } else
-                        {
-                            Cooldown -= 1;
-                        }
+                        stabilisationCounter++;
                     }
                     else
                     {
+                        stabilisationCounter = 0;
+                        lastFrameBiome = newBiome;
+                    }
+
+                    // Death stuff
+                    if (isDead && newBiome.GetName() == "lifepod" && stabilisationCounter > stabilisationTime)
+                    {
+                        TransitionHandler.SetCurrentBiome(BiomeHandler.LIFEPOD);
+                        isDead = false;
+                    }
+                    // Normal update stuff
+                    else
+                    {
+                        if (TransitionHandler.GetCurrentBiome().GetName() != newBiome.GetName() && newBiome.GetName() != "lifepod" && TransitionHandler.GetCurrentBiome().GetName() != "lifepod")
                         {
-                            Biome currentBiome = TransitionHandler.GetCurrentBiome();
-                            if (currentBiome.GetName() != newBiome.GetName() && newBiome.GetName() != "lifepod" && currentBiome.GetName() != "lifepod" && !TransitionHandler.GetProcessing())
+                            if (stabilisationCounter > stabilisationTime)
                             {
-                                TransitionHandler.SetProcessing(true);
-                                Console.WriteLine("Detected Biome CHANGE FROM " + currentBiome.GetName() + " TO " + newBiome.GetName());
-                                try
-                                {
-                                    Console.WriteLine("PROCESSING Biome CHANGE!");
-                                    var teleportPosition = TransitionHandler.getTeleportPositionForBiomeTransfer(newBiome);
-                                    Player.main.SetPosition(teleportPosition.position);
-                                    Player.main.OnPlayerPositionCheat();
-                                }
-                                catch { 
-                                
-                                }
+                                Console.WriteLine("CHANGE FROM " + TransitionHandler.GetCurrentBiome().GetName() + " TO " + newBiome.GetName());
+                                TeleportPosition teleportPosition = TransitionHandler.getTeleportPositionForBiomeTransfer(newBiome);
+                                Biome teleportBiome = BiomeHandler.GetBiomeByGameID(teleportPosition.name);
+
+                                Player.main.SetPosition(teleportPosition.position);
+                                Player.main.OnPlayerPositionCheat();
+                                stabilisationCounter = 0;
+
+                                Console.WriteLine("TELEPORTING TO " + teleportBiome.GetName());
+
+                                TransitionHandler.SetCurrentBiome(teleportBiome);
+                            } else
+                            {
+                                CustomUI.SetBigText("Teleporting in " + Math.Round((stabilisationTime - stabilisationCounter) / 60.0, 0));
                             }
                         }
-                        TransitionHandler.SetCurrentBiome(newBiome);
+                        else if (stabilisationCounter > stabilisationTime && TransitionHandler.GetCurrentBiome().GetName() != newBiome.GetName())
+                        {
+                            // Something to do with the lifepod, so just ignore
+                            TransitionHandler.SetCurrentBiome(newBiome);
+                        }
                     }
                 }
-            } catch (Exception e)
+                catch (Exception e)
+                {
+                    Console.WriteLine("Failed to invoke action " + e.Message);
+                    Console.WriteLine(e.StackTrace);
+                }
+                CustomUI.Update();
+            }
+        }
+
+        [HarmonyPatch(typeof(Player))]
+        [HarmonyPatch("OnKill")]
+        internal class Player_Death_Patch
+        {
+
+            [HarmonyPostfix]
+            public static void Postfix()
             {
-                Console.WriteLine("Failed to invoke action " + e.Message);
-                Console.WriteLine(e.StackTrace);
+                isDead = true;
             }
         }
     }
-    
 
 }
