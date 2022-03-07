@@ -12,13 +12,12 @@ namespace TransitionRandomiser.UI
         private uGUI_TextFade textFade;
         private ContentSizeFitter textFitter;
 
-        private float yOffset;
+        private float xOffset, yOffset;
 
         private bool useGlobalTextWidth;
 
-        public CustomText(string text, int yOffset = 0, bool useGlobalTextWidth = true)
+        public CustomText(string text, bool useGlobalTextWidth = true, int fontSize = 20, TextAnchor alignment = TextAnchor.MiddleLeft)
         {
-            this.yOffset = yOffset;
             this.useGlobalTextWidth = useGlobalTextWidth;
 
             textObject = new GameObject("TwitchInteractionTimerCooldown");
@@ -30,9 +29,9 @@ namespace TransitionRandomiser.UI
             textFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
             textText.font = uGUI.main.intro.mainText.text.font;
-            textText.fontSize = 16;
+            textText.fontSize = fontSize;
             textText.fontStyle = uGUI.main.intro.mainText.text.fontStyle;
-            textText.alignment = TextAnchor.MiddleLeft;
+            textText.alignment = alignment;
             textText.color = uGUI.main.intro.mainText.text.color;
             textText.material = uGUI.main.intro.mainText.text.material;
 
@@ -51,8 +50,9 @@ namespace TransitionRandomiser.UI
             textText.fontSize = textSize;
         }
 
-        public void Update(int yOffset = 0)
+        public void Update(int xOffset = 0, int yOffset = 0)
         {
+            this.xOffset = xOffset;
             this.yOffset = yOffset;
             AlignText();
         }
@@ -85,7 +85,7 @@ namespace TransitionRandomiser.UI
 
             float widestText = useGlobalTextWidth ? CustomUI.widestText : getTextWidth();
 
-            float x = Screen.width / 2 - (Screen.width / 1920f * widestText) - CustomUI.ActualTextHeight();
+            float x = Screen.width / 2 - (Screen.width / 1920f * widestText) - xOffset - CustomUI.ActualTextHeight();
             float y = -Screen.height / 2 - yOffset + CustomUI.ActualTextHeight();
 
             x *= scaleX;
@@ -116,7 +116,7 @@ namespace TransitionRandomiser.UI
     public class CustomUI
     {
 
-        private static CustomText firstText, secondText;
+        private static CustomText firstText, secondText, bigText;
 
         public static int pixelTextHeight = 20;
 
@@ -146,6 +146,15 @@ namespace TransitionRandomiser.UI
             secondText.SetText(text);
         }
 
+        public static void SetBigText(String text)
+        {
+            if (!initialised)
+            {
+                Initialise();
+            }
+            bigText.SetText(text);
+        }
+
         public static void Update()
         {
             float newWidestText = 0;
@@ -156,8 +165,8 @@ namespace TransitionRandomiser.UI
 
             try
             {
-                firstText.Update(-ActualTextHeight() * 2);
-                secondText.Update(-ActualTextHeight() * 1);
+                firstText.Update(0, -ActualTextHeight() * 2);
+                secondText.Update(0, -ActualTextHeight() * 1);
                
                 if (firstText.getTextWidth() > newWidestText)
                 {
@@ -167,12 +176,15 @@ namespace TransitionRandomiser.UI
                 {
                     newWidestText = secondText.getTextWidth();
                 }
+
+                bigText.Update((int) (Screen.width / 2 - bigText.getTextWidth()), -Screen.height / 2);
             }
             catch (Exception)
             {
                 Initialise();
-                firstText.Update(-ActualTextHeight() * 2);
-                secondText.Update(-ActualTextHeight() * 1);
+                firstText.Update(0, -ActualTextHeight() * 2);
+                secondText.Update(0, -ActualTextHeight() * 1);
+                bigText.Update((int)(Screen.width / 2 - bigText.getTextWidth()), -Screen.height / 2);
             }
 
             widestText = newWidestText;
@@ -187,6 +199,7 @@ namespace TransitionRandomiser.UI
         {
             firstText = new CustomText("");
             secondText = new CustomText("");
+            bigText = new CustomText("", false, 60, TextAnchor.MiddleCenter);
 
             initialised = true;
         }
