@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
 using HarmonyLib;
-using UnityEngine;
+using TransitionRandomiser.UI;
 
 namespace TransitionRandomiser.Player_Events
 {
@@ -17,6 +16,8 @@ namespace TransitionRandomiser.Player_Events
         [HarmonyPostfix]
         public static void Postfix()
         {
+            CustomUI.Update();
+
             try
             {
                 var main = Player.main;
@@ -33,7 +34,7 @@ namespace TransitionRandomiser.Player_Events
                         if(Cooldown < 1)
                         {
                             Cooldown = 120;
-                            TransitionHandler.SetCurrentBiome(newBiome);
+                            TransitionHandler.SetCurrentBiome(newBiome, true);
                             TransitionHandler.SetProcessing(false);
                         } else
                         {
