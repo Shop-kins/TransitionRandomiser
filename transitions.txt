@@ -1,0 +1,214 @@
+-----BIOME NAMES (LOWERCASE)-----
+safeshallows
+grassyplateaus
+kelpforest
+jellyshroomcaves jellyshroomcaves_entrance
+dunes
+mushroomforest mushroomforest_cave mushroomforest_cave_dark mushroomforest_cave_light
+bloodkelptwo bloodkelptwo_cave
+mountains mountains_islandsurface_caveentrance mountains_island_teleporter
+underwaterislands
+kooshzone
+crashzone crashedship crashzone_trench generatorroom
+cragfield
+grandreef deepgrandreef
+sparsereef sparsereef_deep sparsereef_cave
+seatreaderpath
+bloodkelp bloodkelp_trench bloodkelp_cave bloodkelp_deeptrench
+floatingisland floatingislandcaveteleporter
+
+lostriver_corridor lostriver_canyon lostriver_skeletoncave lostriver_bonesfield lostriver_junction lostriver_treecove
+ilzcorridor ilzchamber lavapit ilzchamber_dragon ilzcastlechamber ilzcastletunnel
+lavafalls lavalakes
+
+precursorcache
+precursor_gun_moonpoolwater precursor_gun_outerrooms precursor_gun_innerrooms
+precursorcave_kooshzone precursorcave_cragfield precursorcave_mushroomforest
+precursor_lostriverbase
+precursor_lavacastlebase
+prison_upperroom prison_antechamber prison_upperroom prison_moonpool prison_aquarium_upper prison_aquarium
+
+-----MAIN BIOMES-----
+dunes - bloodkelp (-881, -270, 1375) (0.4, -0.8, 0.4)
+dunes - mushroomforest (-1220, -217, 682) (1, -0.1, -0.3)
+dunes - kelpforest (-1000, -83, 156) (-0.7, -0.7, -0.1)
+dunes - grassyplateaus (-940, -128, -55) (1, 0.1, -0.1)
+dunes - bloodkelptrench (-1286, -238, -320) (0, -1, 0)
+dunes - seatreaderspath (-1542, -335, -133) (-0.1, -0.3, -1)
+
+bloodkelp - dunes (-936, -227, 1333) (-0.7, -0.3, -0.7)
+bloodkelp - mushroomforest (-736, -180, 875) (0, -0.3, -1)
+bloodkelp - underwaterislands (-345, -181, 1115) (0.8, -0.3, -0.6)
+bloodkelp - mountains (-129, -368, 1482) (0.9, -0.4, -0.2)
+
+mountains - bloodkelp (-215, -382, 1491) (-0.9, -0.4, 0)
+mountains - underwaterislands (11, -175, 1182) (-0.4, -0.4, -0.8)
+mountains - kelpforest (135, -29, 804) (-0.3, -0.1, -1)
+mountains - mushroomforest (524, -144, 924) (0.1, -0.3, -1)
+mountains - bulbzone (1012, -166, 886) (0.7, -0.7, 0.2)
+
+underwaterislands - bloodkelp (-367, -235, 1145) (-0.5, -0.7, 0.5)
+underwaterislands - mountains (84, -297, 1307) (0.5, -0.4, 0.8)
+underwaterislands - kelpforest (-10, -16, 502) (0.2, -0.2, -1)
+underwaterislands - grassyplateaus (-190, -43, 640) (-0.8, -0.6, -0.3)
+underwaterislands - mushroomforest (-605, -95, 860) (-0.7, -0.3, -0.7)
+
+bulbzone - mountains (866, -187, 1004) (-0.5, -0.8, 0.4)
+bulbzone - mushroomforest (723, -154, 665) (-0.6, 0.1, -0.8)
+bulbzone - crashzone (1131, -88, 236) (-0.3, 0, 1)
+
+mushroomforest - bloodkelp (-726, -202, 921) (0, -0.6, 0.8)
+mushroomforest - dunes (-1272, -218, 702) (-0.7, -0.7, 0.2)
+mushroomforest - kelpforest (525, -68, 598) (-1, 0, -0.1)
+mushroomforest - grassyplateaus (475, -132, 373) (-0.8, 0.2, -0.5)
+mushroomforest - underwaterislands (-498, -66, 872) (0.7, -0.5, 0.6)
+mushroomforest - mountains (575, -173, 960) (0.4, -0.7, 0.6)
+mushroomforest - bulbzone (865, -171, 637) (0.9, -0.5, 0)
+mushroomforest - crashzone (650, -38, 140) (0.4, 0, -0.9)
+mushroomforest - safeshallows (523, -52, 34) (-0.5, 0.2, -0.9)
+
+kelpforest - mountains (163, -32, 850) (0.5, -0.4, 0.7)
+kelpforest - mushroomforest (561, -109, 581) (0.8, -0.6, -0.2)
+kelpforest - grassyplateaus (205, -61, 313) (0.8, -0.2, 0.6)
+kelpforest - safeshallows (-110, -7, -178) (-0.5, -0.2, 0.8)
+kelpforest - underwaterislands (-25, -39, 586) (-0.2, -0.4, 0.9)
+kelpforest - crashzone (351, -12, -386) (1, 0.1, 0)
+kelpforest - cragfield (-184, -78, -741) (-0.1, -0.7, -0.7)
+kelpforest - grandreef (-275, -98, -696) (-0.2, -0.8, -0.5)
+kelpforest - sparsereef (-388, -26, -640) (-0.7, -0.6, -0.4)
+kelpforest - dunes (-968, -63, 162) (0.9, -0.3, 0.2)
+
+grassyplateaus - underwaterislands (-113, -51, 670) (0.6, -0.7, 0.4)
+grassyplateaus - mushroomforest (533, -164, 460) (0.9, 0, 0.4)
+grassyplateaus - kelpforest (153, -58, 283) (-1, 0.1, -0.1)
+grassyplateaus - safeshallows (-640, -22, 107) (-0.2, 0.1, 1)
+grassyplateaus - cragfield (-116, -119, -831) (-0.4, -0.5, -0.8)
+grassyplateaus - crashzone (252, -15, -640) (0.8, -0.3, -0.5)
+grassyplateaus - dunes (-1040, -171, -14) (-0.7, -0.5, -0.5)
+grassyplateaus - bloodkelptrench (-758, -124, -300) (-0.4, -0.8, -0.5)
+grassyplateaus - sparsereef (-542, -41, -565) (-0.5, -0.7, -0.5)
+
+crashzone - bulbzone (1131, -131, 296) (0, -0.8, 0.5)
+crashzone - mushroomforest (658, -71, 204) (-0.1, -0.7, 0.7)
+crashzone - safeshallows (349, -17, -254) (-0.9, -0.1, 0.4)
+crashzone - kelpforest (308, -22, -378) (-1, -0.2, 0.2)
+crashzone - grassyplateaus (173, -42, -607) (-0.8, -0.6, 0.2)
+crashzone - cragfield (22, -126, -1025) (-0.8, -0.5, -0.4)
+
+cragfield - crashzone (143, -61, -934) (0.6, 0, 0.8)
+cragfield - grassyplateaus (-65, -112, -751) (0.4, 0.1, 0.9)
+cragfield - kelpforest (-250, -33, -630) (0.3, 0.1, 1)
+cragfield - grandreef (-250, -189, -961) (-0.6, -0.8, 0)
+
+grandreef - cragfield (-178, -140, -948) (1, -0.2, -0.1)
+grandreef - kelpforest (-261, -51, -654) (0.1, 0, 1)
+grandreef - sparsereef (-632, -170, -896) (-0.4, -0.3, 0.9)
+grandreef - seatreaderspath (-1221, -200, -907) (0.3, 0.1, 0.9)
+
+sparsereef - grassyplateaus (-441, -50, -432) (0.6, -0.2, 0.7)
+sparsereef - kelpforest (-346, -25, -566) (0.5, -0.1, 0.9)
+sparsereef - grandreef (-615, -210, -973) (0.1, -0.9, -0.5)
+sparsereef - seatreaderspath (-1087, -180, -733) (-1, 0.2, 0.1)
+sparsereef - bloodkelptrench (-943, -214, -606) (-0.3, -0.9, 0.4)
+
+seatreaderspath - dunes (-1532, -336, -58) (-0.3, 0.0, 1.0)
+seatreaderspath - bloodkelptrench (-1091, -239, -527) (0.2, -1, 0.2)
+seatreaderspath - sparsereef (-1024, -178, -706) (0.7, -0.7, 0.3)
+seatreaderspath - grandreef (-1252, -255, -971) (-0.1, -0.8, -0.6)
+
+bloodkelptrench - grassyplateaus (-710, -80, -254) (0.5, -0.1, 0.9)
+bloodkelptrench - sparsereef (-858, -178, -647) (0.8, -0.4, -0.4)
+bloodkelptrench - seatreaderspath (-1120, -187, -577) (-0.3, 0.1, -0.9)
+bloodkelptrench - dunes (-1250, -232, -280) (0.7, -0.2, 0.7)
+
+safeshallows - grassyplateaus (-633, -40, 60) (0, -0.5, -0.9)
+safeshallows - kelpforest (-80, -12, -198) (0.9, -0.2, -0.3)
+safeshallows - mushroomforest (533, -78, 88) (0.1, -0.6, 0.8)
+safeshallows - crashzone (406, -9, -290) (0.8, 0, -0.6)
+
+-----ISLANDS-----
+grandreef - floatingisland (-729, 2, -1062) (-0.6, 0, 0.8)
+sparsereef - floatingisland (-765, 6, -950) (0.2, 0.5, -0.9)
+floatingisland - grandreef (-710, -6, -1071) (0, -1, 0)
+floatingisland - sparsereef (-772, -4, -931) (-0.2, -0.9, 0.5)
+
+-----JELLYSHROOM CAVE-----
+jellyshroomcave - grassyplateaus (x4)
+	(131, -95, -378) (0.5, 0.9, -0.1)
+	(-359, -88, -220) (-0.7, -0.3, -0.6)
+	(-495, -89, -3) (-0.3, -0.2, -1)
+	(-724, -106, -1) (0.1, 0.3, -1)
+grassyplateaus - jellyshroomcave (x4)
+	(127, -187, -375) (-0.3, -0.9, 0.1)
+	(-359, -143, -220) (0, -1, 0)
+	(-507, -158, 12) (-0.1, -0.9, -0.5)
+	(-722, -170, 10) (0.3, -0.8, -0.6)
+
+-----LOST RIVER-----
+bulbzone - lostriver (947, -550, 932) (-0.9, -0.4, 0.1)
+bloodkelp - lostriver (-771, -601, 965) (-0.3, -0.1, -0.9)
+bloodkelptrench - lostriver (-1097, -653, -496) (0.4, -0.6, -0.7)
+grandreef - lostriver (-724, -656, -746) (-0.5, -0.4, 0.8)
+
+lostriver - bulbzone (1029, -517, 927) (1, 0.3, -0.1)
+lostriver - bloodkelp (-677, -545, 1170) (0.7, 0.3, 0.7)
+lostriver - bloodkelptrench (-1150, -585, -429) (-0.7, -0.2, 0.7)
+lostriver - grandreef (-741, -613, -797) (-0.1, 0.4, -0.9)
+
+-----LAVA ZONE-----
+inactivelavazone - lostriver (x2)
+	drf (275, -909, 704) (0.3, 0.5, 0.8)
+	tree (-1303, -896, 438) (0.1, -0.1, 1)
+inactivelavazone - lavalakes (x2)
+	castle (74, -1331, 340) (-0.2, -0.6, -0.8)
+	other (-207, -1360, 3) (0.6, -0.6, 0.5)
+
+lostriver - inactivelavazone (x2)
+	drf (275, -994, 704) (0, -1, 0)
+	tree (-1205, -1022, 422) (0.6, -0.8, 0.1)
+lavalakes - inactivelavazone (x2)
+	castle (77, -1237, 328) (-0.5, 0.2, -0.8)
+	other (-246, -1337, -72) (-0.4, 0.1, -0.9)
+
+-----ALIEN BASES-----
+dunes - alienbase (-1240, -397, 1096) (0.8, -0.1, 0.5)
+bloodkelp - alienbase (-594, -552, 1480) (-0.9, -0.4, 0.2)
+mushroomforest - alienbase (-796, -228, 402) (1, -0.1, -0.3)
+bulbzone - alienbase (1372, -299, 741) (-0.5, -0.2, -0.8)
+sparsereef - alienbase (-888, -305, -790) (0.2, -0.4, -0.9)
+cragfield - alienbase (-80, -290, -1349) (-0.1, -0.2, 1)
+mountain - alienbase (x3)
+	qep moonpool (-659, 22, -1049) (-0.5, -0.3, -0.8)
+	portal (340, 63, 911) (0.2, -0.1, -1)
+	qep (392, 6, 1113) (0.5, 0, -0.8)
+lostriver - alienbase (x2)
+	drf (-253, -793, 302) (-0.7, -0.1, -0.7)
+	portal (-942, -621, 1034) (0.1, -0.1, 1)
+inactivelavazone - alienbase (-36, -1205, 138) (-0.8, -0.2, -0.6)
+lavalakes - alienbase (217, -1450, -261) (0.5, 0, -0.9)
+mountains - alienbase (474, -114, 1240) (-0.3, 0, -0.9)
+
+alienbase - dunes (-1256, -398, 1098) (0.3, 0.2, 0.9)
+alienbase - bloodkelp (-562, -539, 1489) (0.3, 0.2, 0.9)
+alienbase - mushroomforest (-803, -224, 407) (-0.8, 0, 0.5)
+alienbase - bulbzone (1378, -292, 750) (0.5, 0, 0.9)
+alienbase - sparsereef (-909, -298, -773) (-0.6, 0.4, 0.6)
+alienbase - cragfield (-80, -282, -1359) (0, 0, -1)
+alienbase - floatingisland (-657, 22, -1039) (0.2, 0, 1)
+alienbase - lostriver (x2)
+	drf (-229, -791, 317) (0.9, 0, 0.5)
+	portal (-940, -614, 1009) (0.4, -0.1, -0.9)
+alienbase - inactivelavazone (-35, -1198, 151) (0, -0.1, 1)
+alienbase - lavalakes (211, -1444, -249) (-0.5, 0, 0.9)
+alienbase - mountains (x3)
+	qep moonpool (479, -116, 1270) (0.1, -0.6, 0.8)
+	portal (341, 65, 951) (0, -0.1, 1)
+      qep (385, 5.6, 1117) (-0.9, 0, -0.4)
+
+-----PROBLEMS-----
+- Bulb zone lost river entrance: It's right on the mountain / bulb zone biome border, but I haven't found a way directly from mountain to lost river.
+	Also there are random biome changes all over the place there. Maybe add a "teleport preview" or something, which you can cancel
+- Dunes Cache: Biome Transition is exactly at the laser door (you can get trapped inside if you haven't opened it yet) => Undo button is probably a good idea
+- Swimming state needs to be updated in some transitions
+Mountain island is not an individual biome (not really a problem)
+Degasi bases don't have an individual biome (not really a problem either)
