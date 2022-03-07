@@ -14,7 +14,7 @@ namespace TransitionRandomiser.Player_Events
         private static Biome CurrentBiome = BiomeHandler.LIFEPOD;
         private static Biome PreviousBiome = CurrentBiome;
         private static Boolean Processing = false;
-        private static Dictionary<Array, TeleportPosition> TransitionDictionary = new Dictionary<Array, TeleportPosition>()
+        private static Dictionary<String, TeleportPosition> TransitionDictionary = new Dictionary<String, TeleportPosition>()
         {
         };
         internal static void SetCurrentBiome(Biome Biome, Boolean dontUpdatePreviousBiome = false)
@@ -45,15 +45,15 @@ namespace TransitionRandomiser.Player_Events
 
         internal static TeleportPosition getTeleportPositionForBiomeTransfer(Biome newBiome)
         {
-            Biome[] biomeTransfer = { CurrentBiome, newBiome };
-            if (TransitionDictionary.ContainsKey(biomeTransfer))
+            String biomeTransferString = CurrentBiome.GetName() + newBiome.GetName();
+            if (TransitionDictionary.ContainsKey(biomeTransferString))
             {
-                return TransitionDictionary[biomeTransfer];
+                return TransitionDictionary[biomeTransferString];
             }
             else
             {
                 var biomePosition = GetRandomBiomePositions();
-                TransitionDictionary.Add(biomeTransfer, biomePosition);
+                TransitionDictionary.Add(biomeTransferString, biomePosition);
                 return biomePosition;
             }
         }
