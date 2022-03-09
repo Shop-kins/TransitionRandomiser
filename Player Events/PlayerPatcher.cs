@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using TransitionRandomiser.UI;
+using UnityEngine;
 
 namespace TransitionRandomiser.Player_Events
 {
@@ -9,10 +10,13 @@ namespace TransitionRandomiser.Player_Events
     {
         private static Boolean isDead = true;
 
-        private static Biome lastFrameBiome = BiomeHandler.LIFEPOD;
+        private static Biome lastFrameBiome = BiomeHandler.SAFESHALLOWS;
         private static long stabilisationCounter = 0;
 
         private static int stabilisationTime = 300;
+
+        private static String yourBiomeText = "";
+        private static int yourBiomeTextCounter = 0;
 
         [HarmonyPatch(typeof(Player))]
         [HarmonyPatch("Update")]
@@ -25,6 +29,12 @@ namespace TransitionRandomiser.Player_Events
                 CustomUI.SetBigText("");
                 CustomUI.SetFirstText("Current biome: " + TransitionHandler.GetCurrentBiome().GetName());
                 CustomUI.SetSecondText("Previous biome: " + TransitionHandler.GetPreviousBiome().GetName());
+                if (yourBiomeTextCounter <= 0)
+                {
+                    yourBiomeText = "";
+                }
+                yourBiomeTextCounter--;
+                CustomUI.SetBiomeText(yourBiomeText);
 
                 try
                 {
@@ -44,38 +54,48 @@ namespace TransitionRandomiser.Player_Events
                     }
 
                     // Death stuff
-                    if (isDead && newBiome.GetName() == "lifepod" && stabilisationCounter > stabilisationTime)
+                    if (isDead && main.GetBiomeString().ToLower() == "lifepod" && stabilisationCounter > stabilisationTime)
                     {
-                        TransitionHandler.SetCurrentBiome(BiomeHandler.LIFEPOD);
+                        TransitionHandler.ResetCurrentBiome();
+                        Console.WriteLine("HANDLED DEATH");
                         isDead = false;
                     }
                     // Normal update stuff
-                    else
+                    else if (!isDead)
                     {
-                        if (TransitionHandler.GetCurrentBiome().GetName() != newBiome.GetName() && newBiome.GetName() != "lifepod" && TransitionHandler.GetCurrentBiome().GetName() != "lifepod")
+                        if (TransitionHandler.GetCurrentBiome().GetName() != newBiome.GetName())
                         {
                             if (stabilisationCounter > stabilisationTime)
                             {
                                 Console.WriteLine("CHANGE FROM " + TransitionHandler.GetCurrentBiome().GetName() + " TO " + newBiome.GetName());
-                                TeleportPosition teleportPosition = TransitionHandler.getTeleportPositionForBiomeTransfer(newBiome);
-                                Biome teleportBiome = BiomeHandler.GetBiomeByGameID(teleportPosition.name);
-
-                                Player.main.SetPosition(teleportPosition.position);
-                                Player.main.OnPlayerPositionCheat();
+                                TeleportLocation teleportLocation = TransitionHandler.getTeleportPositionForBiomeTransfer(newBiome, main.lastPosition);
                                 stabilisationCounter = 0;
 
-                                Console.WriteLine("TELEPORTING TO " + teleportBiome.GetName());
+                                if (teleportLocation == null)
+                                {
+                                    Console.WriteLine("NOT VALID; IGNORING");
+                                    TransitionHandler.SetCurrentBiome(newBiome);
+                                    return;
+                                }
 
-                                TransitionHandler.SetCurrentBiome(teleportBiome);
+                                Player.main.playerController.inputEnabled = false;
+                                Player.main.playerController.SetEnabled(false);
+                                Player.main.transform.position = teleportLocation.GetPosition();
+                                MainCameraControl.main.rotationX = 0;
+                                MainCameraControl.main.rotationY = 0;
+                                Player.main.transform.rotation = Quaternion.Euler(teleportLocation.GetRotation());
+                                Player.main.WaitForTeleportation();
+
+                                Console.WriteLine("TELEPORTING TO " + teleportLocation.GetBiome().GetName());
+
+                                yourBiomeText = "New biome: " + teleportLocation.GetBiome().GetName() + " (from " + teleportLocation.GetOrigin().GetName() + ")";
+                                yourBiomeTextCounter = 300;
+
+                                TransitionHandler.SetCurrentBiome(teleportLocation.GetBiome());
                             } else
                             {
                                 CustomUI.SetBigText("Teleporting in " + Math.Round((stabilisationTime - stabilisationCounter) / 60.0, 0));
                             }
-                        }
-                        else if (stabilisationCounter > stabilisationTime && TransitionHandler.GetCurrentBiome().GetName() != newBiome.GetName())
-                        {
-                            // Something to do with the lifepod, so just ignore
-                            TransitionHandler.SetCurrentBiome(newBiome);
                         }
                     }
                 }

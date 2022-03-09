@@ -116,7 +116,7 @@ namespace TransitionRandomiser.UI
     public class CustomUI
     {
 
-        private static CustomText firstText, secondText, bigText;
+        private static CustomText firstText, secondText, bigText, biomeText;
 
         public static int pixelTextHeight = 20;
 
@@ -155,6 +155,15 @@ namespace TransitionRandomiser.UI
             bigText.SetText(text);
         }
 
+        public static void SetBiomeText(String text)
+        {
+            if (!initialised)
+            {
+                Initialise();
+            }
+            biomeText.SetText(text);
+        }
+
         public static void Update()
         {
             float newWidestText = 0;
@@ -178,6 +187,7 @@ namespace TransitionRandomiser.UI
                 }
 
                 bigText.Update((int) (Screen.width / 2 - bigText.getTextWidth()), -Screen.height / 2);
+                biomeText.Update((int)(Screen.width / 2 - biomeText.getTextWidth()), -Screen.height + ActualTextHeight() * 3);
             }
             catch (Exception)
             {
@@ -185,6 +195,7 @@ namespace TransitionRandomiser.UI
                 firstText.Update(0, -ActualTextHeight() * 2);
                 secondText.Update(0, -ActualTextHeight() * 1);
                 bigText.Update((int)(Screen.width / 2 - bigText.getTextWidth()), -Screen.height / 2);
+                biomeText.Update((int)(Screen.width / 2 - biomeText.getTextWidth()), -Screen.height + ActualTextHeight() * 3);
             }
 
             widestText = newWidestText;
@@ -200,6 +211,7 @@ namespace TransitionRandomiser.UI
             firstText = new CustomText("");
             secondText = new CustomText("");
             bigText = new CustomText("", false, 60, TextAnchor.MiddleCenter);
+            biomeText = new CustomText("", false, 40, TextAnchor.MiddleCenter);
 
             initialised = true;
         }

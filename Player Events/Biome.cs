@@ -27,8 +27,8 @@ namespace TransitionRandomiser.Player_Events
 
     class BiomeHandler
     {
-        public static Biome LIFEPOD = new Biome("lifepod", new string[] { "lifepod" });
-        public static Biome SAFESHALLOWS = new Biome("safeshallows", new string[] { "safeshallows" });
+        //public static Biome LIFEPOD = new Biome("lifepod", new string[] { "lifepod" });
+        public static Biome SAFESHALLOWS = new Biome("safeshallows", new string[] { "safeshallows", "lifepod" });
         public static Biome GRASSYPLATEAUS = new Biome("grassyplateaus", new string[] { "grassyplateaus" });
         public static Biome KELPFOREST = new Biome("kelpforest", new string[] { "kelpforest" });
         public static Biome JELLYSHROOMCAVE = new Biome("jellyshroomcaves", new string[] { "jellyshroomcaves" });
@@ -52,7 +52,7 @@ namespace TransitionRandomiser.Player_Events
 
         public static Biome[] BIOMES = new Biome[]
         {
-            LIFEPOD,
+            //LIFEPOD,
             SAFESHALLOWS,
             GRASSYPLATEAUS,
             KELPFOREST,
