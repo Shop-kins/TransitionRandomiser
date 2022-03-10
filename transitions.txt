@@ -170,6 +170,12 @@ lavalakes - inactivelavazone (x2)
 	castle (77, -1237, 328) (-0.5, 0.2, -0.8)
 	other (-246, -1337, -72) (-0.4, 0.1, -0.9)
 
+-----PORTALS-----
+mountains - floatingisland (-662, 5, -1067) (0, 0, -1)
+floatingisland - mountains (345, 63, 890) (-0.3, 0, 0.9)
+
+Other portals all are from alienbase to alienbase => Maybe fix in the future
+
 -----ALIEN BASES-----
 dunes - alienbase (-1240, -397, 1096) (0.8, -0.1, 0.5)
 bloodkelp - alienbase (-594, -552, 1480) (-0.9, -0.4, 0.2)
@@ -178,15 +184,14 @@ bulbzone - alienbase (1372, -299, 741) (-0.5, -0.2, -0.8)
 sparsereef - alienbase (-888, -305, -790) (0.2, -0.4, -0.9)
 cragfield - alienbase (-80, -290, -1349) (-0.1, -0.2, 1)
 mountain - alienbase (x3)
-	qep moonpool (-659, 22, -1049) (-0.5, -0.3, -0.8)
-	portal (340, 63, 911) (0.2, -0.1, -1)
+	qep moonpool (470, -110, 1233) (-0.5, -0.3, -0.8)
 	qep (392, 6, 1113) (0.5, 0, -0.8)
+      pcf (245, -1586, -310) (0.5, -0.2, -0.9)
 lostriver - alienbase (x2)
 	drf (-253, -793, 302) (-0.7, -0.1, -0.7)
 	portal (-942, -621, 1034) (0.1, -0.1, 1)
 inactivelavazone - alienbase (-36, -1205, 138) (-0.8, -0.2, -0.6)
 lavalakes - alienbase (217, -1450, -261) (0.5, 0, -0.9)
-mountains - alienbase (474, -114, 1240) (-0.3, 0, -0.9)
 
 alienbase - dunes (-1256, -398, 1098) (0.3, 0.2, 0.9)
 alienbase - bloodkelp (-562, -539, 1489) (0.3, 0.2, 0.9)
@@ -194,7 +199,6 @@ alienbase - mushroomforest (-803, -224, 407) (-0.8, 0, 0.5)
 alienbase - bulbzone (1378, -292, 750) (0.5, 0, 0.9)
 alienbase - sparsereef (-909, -298, -773) (-0.6, 0.4, 0.6)
 alienbase - cragfield (-80, -282, -1359) (0, 0, -1)
-alienbase - floatingisland (-657, 22, -1039) (0.2, 0, 1)
 alienbase - lostriver (x2)
 	drf (-229, -791, 317) (0.9, 0, 0.5)
 	portal (-940, -614, 1009) (0.4, -0.1, -0.9)
@@ -202,8 +206,8 @@ alienbase - inactivelavazone (-35, -1198, 151) (0, -0.1, 1)
 alienbase - lavalakes (211, -1444, -249) (-0.5, 0, 0.9)
 alienbase - mountains (x3)
 	qep moonpool (479, -116, 1270) (0.1, -0.6, 0.8)
-	portal (341, 65, 951) (0, -0.1, 1)
-      qep (385, 5.6, 1117) (-0.9, 0, -0.4)
+      qep (385, 6, 1117) (-0.9, 0, -0.4)
+      pcf (458, -165, 1363) (0.4, 0, -0.9)
 
 -----PROBLEMS-----
 - Bulb zone lost river entrance: It's right on the mountain / bulb zone biome border, but I haven't found a way directly from mountain to lost river.
