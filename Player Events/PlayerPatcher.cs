@@ -55,13 +55,13 @@ namespace TransitionRandomiser.Player_Events
                     }
                     else
                     {
-                        if (newBiome.GetName() == TransitionHandler.GetCurrentBiome().GetName())
+                        if (newBiome.GetName() == TransitionHandler.GetCurrentBiome().GetName() && biomeChangeDone)
                         {
-                            Player.main.UnfreezeStats();
+                            UnfreezeStats();
                         }
                         else
                         {
-                            Player.main.FreezeStats();
+                            FreezeStats();
                         }
                         stabilisationCounter = 0;
                         lastFrameBiome = newBiome;
@@ -71,13 +71,14 @@ namespace TransitionRandomiser.Player_Events
                     if (!biomeChangeDone && newBiome.GetName() == TransitionHandler.GetCurrentBiome().GetName() && Player.main.playerController.inputEnabled)
                     {
                         biomeChangeDone = true;
-                        Player.main.UnfreezeStats();
+                        UnfreezeStats();
                     }
 
                     // Death stuff
-                    if (isDead && main.GetBiomeString().ToLower() == "lifepod" && stabilisationCounter > stabilisationTime)
+                    if (isDead && Player.main.playerController.inputEnabled)
                     {
-                        TransitionHandler.ResetCurrentBiome();
+                        TransitionHandler.SetCurrentBiome(newBiome);
+                        UnfreezeStats();
                         Console.WriteLine("HANDLED DEATH");
                         isDead = false;
                     }
@@ -102,7 +103,7 @@ namespace TransitionRandomiser.Player_Events
                                 Player.main.playerController.inputEnabled = false;
                                 Player.main.playerController.SetEnabled(false);
                                 Player.main.transform.position = teleportLocation.GetPosition();
-                                Player.main.isUnderwaterForSwimming.Update(true);
+                                Player.main.SetMotorMode(Player.MotorMode.Dive);
                                 MainCameraControl.main.rotationX = 0;
                                 MainCameraControl.main.rotationY = 0;
                                 Player.main.transform.rotation = Quaternion.Euler(teleportLocation.GetRotation());
@@ -129,6 +130,20 @@ namespace TransitionRandomiser.Player_Events
                 }
                 CustomUI.Update();
             }
+
+            public static void FreezeStats()
+            {
+                Player.main.FreezeStats();
+            }
+
+            public static void UnfreezeStats()
+            {
+                while (Player.main.IsFrozenStats())
+                {
+                    Player.main.UnfreezeStats();
+                }
+            }
+
         }
 
         [HarmonyPatch(typeof(Player))]

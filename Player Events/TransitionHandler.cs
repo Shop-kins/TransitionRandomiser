@@ -155,7 +155,7 @@ namespace TransitionRandomiser.Player_Events
 
         static Transition CRASHZONE_BULBZONE = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.BULBZONE, new Vector3(1131, -131, 296), new Vector3(45, 16, 0));
         static Transition CRASHZONE_MUSHROOMFOREST = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.MUSHROOMFOREST, new Vector3(658, -71, 204), new Vector3(41, 356, 0));
-        static Transition CRASHZONE_SAFESHALLOWS = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.SAFESHALLOWS, new Vector3(349, -17, -254), new Vector3(2, 303, 0));
+        static Transition CRASHZONE_SAFESHALLOWS = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.SAFESHALLOWS, new Vector3(388, -11, -219), new Vector3(2, 289, 0));
         static Transition CRASHZONE_KELPFOREST = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.KELPFOREST, new Vector3(308, -22, -378), new Vector3(10, 281, 0));
         static Transition CRASHZONE_GRASSYPLATEAUS = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.GRASSYPLATEAUS, new Vector3(173, -42, -607), new Vector3(37, 285, 0));
         static Transition CRASHZONE_CRAGFIELD = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.CRAGFIELD, new Vector3(22, -126, -1025), new Vector3(34, 214, 0));
