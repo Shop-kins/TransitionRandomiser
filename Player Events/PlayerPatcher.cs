@@ -72,6 +72,10 @@ namespace TransitionRandomiser.Player_Events
                     {
                         biomeChangeDone = true;
                         UnfreezeStats();
+                        //Player.main.isUnderwater.Update(true);
+                        Player.main.UpdateMotorMode();
+                        Player.main.OnPlayerPositionCheat();
+                        //Player.main.SetMotorMode(Player.MotorMode.Dive);
                     }
 
                     // Death stuff
@@ -103,11 +107,11 @@ namespace TransitionRandomiser.Player_Events
                                 Player.main.playerController.inputEnabled = false;
                                 Player.main.playerController.SetEnabled(false);
                                 Player.main.transform.position = teleportLocation.GetPosition();
-                                Player.main.SetMotorMode(Player.MotorMode.Dive);
                                 MainCameraControl.main.rotationX = 0;
                                 MainCameraControl.main.rotationY = 0;
                                 Player.main.transform.rotation = Quaternion.Euler(teleportLocation.GetRotation());
                                 Player.main.WaitForTeleportation();
+                                Player.main.OnPlayerPositionCheat();
                                 biomeChangeDone = false;
 
                                 Console.WriteLine("TELEPORTING TO " + teleportLocation.GetBiome().GetName());

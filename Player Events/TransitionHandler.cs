@@ -13,20 +13,13 @@ namespace TransitionRandomiser.Player_Events
         private Biome biome;
         private Vector3 position;
         private Vector3 rotation;
-        private int index;
 
-        public TeleportLocation(Biome biome, Vector3 position, Vector3 rotation, Biome origin, int index)
+        public TeleportLocation(Biome biome, Vector3 position, Vector3 rotation, Biome origin)
         {
             this.biome = biome;
             this.position = position;
             this.rotation = rotation;
             this.origin = origin;
-            this.index = index;
-        }
-
-        public int getIndex()
-        {
-            return index;
         }
 
         public Biome GetOrigin()
@@ -450,7 +443,7 @@ namespace TransitionRandomiser.Player_Events
                 Transition transition = ALL_TRANSITIONS[i];
                 for (int j = 0; j < transition.GetPlayerStates().Length; j++)
                 {
-                    allLocations.Add(new TeleportLocation(transition.GetTo(), transition.GetPlayerStates()[j].Key, transition.GetPlayerStates()[j].Value, transition.GetFrom(), j));
+                    allLocations.Add(new TeleportLocation(transition.GetTo(), transition.GetPlayerStates()[j].Key, transition.GetPlayerStates()[j].Value, transition.GetFrom()));
                 }
             }
 
@@ -575,7 +568,7 @@ namespace TransitionRandomiser.Player_Events
                         ignoredIndices.Add(new KeyValuePair<int, int>(oppositeIndex, originalIndex));
                         transitionMap.Add(ALL_TRANSITIONS[oppositeIndex], oppositeLocations);
                     }
-
+                    
                 }
                 if (!existsInMap)
                 {
