@@ -9,6 +9,7 @@ namespace TransitionRandomiser.Player_Events
     class PlayerPatcher
     {
         private static Boolean isDead = true;
+        private static Boolean biomeChangeDone = true;
 
         private static Biome lastFrameBiome = BiomeHandler.SAFESHALLOWS;
         private static long stabilisationCounter = 0;
@@ -26,6 +27,11 @@ namespace TransitionRandomiser.Player_Events
             [HarmonyPostfix]
             public static void Postfix()
             {
+                if (!TransitionHandler.IsInitialised())
+                {
+                    TransitionHandler.GenerateRandomTransitionMap();
+                }
+
                 CustomUI.SetBigText("");
                 CustomUI.SetFirstText("Current biome: " + TransitionHandler.GetCurrentBiome().GetName());
                 CustomUI.SetSecondText("Previous biome: " + TransitionHandler.GetPreviousBiome().GetName());
@@ -49,8 +55,23 @@ namespace TransitionRandomiser.Player_Events
                     }
                     else
                     {
+                        if (newBiome.GetName() == TransitionHandler.GetCurrentBiome().GetName())
+                        {
+                            Player.main.UnfreezeStats();
+                        }
+                        else
+                        {
+                            Player.main.FreezeStats();
+                        }
                         stabilisationCounter = 0;
                         lastFrameBiome = newBiome;
+                    }
+
+                    // Biome change worked?
+                    if (!biomeChangeDone && newBiome.GetName() == TransitionHandler.GetCurrentBiome().GetName() && Player.main.playerController.inputEnabled)
+                    {
+                        biomeChangeDone = true;
+                        Player.main.UnfreezeStats();
                     }
 
                     // Death stuff
@@ -63,7 +84,7 @@ namespace TransitionRandomiser.Player_Events
                     // Normal update stuff
                     else if (!isDead)
                     {
-                        if (TransitionHandler.GetCurrentBiome().GetName() != newBiome.GetName())
+                        if (TransitionHandler.GetCurrentBiome().GetName() != newBiome.GetName() && biomeChangeDone)
                         {
                             if (stabilisationCounter > stabilisationTime)
                             {
@@ -81,15 +102,17 @@ namespace TransitionRandomiser.Player_Events
                                 Player.main.playerController.inputEnabled = false;
                                 Player.main.playerController.SetEnabled(false);
                                 Player.main.transform.position = teleportLocation.GetPosition();
+                                Player.main.isUnderwaterForSwimming.Update(true);
                                 MainCameraControl.main.rotationX = 0;
                                 MainCameraControl.main.rotationY = 0;
                                 Player.main.transform.rotation = Quaternion.Euler(teleportLocation.GetRotation());
                                 Player.main.WaitForTeleportation();
+                                biomeChangeDone = false;
 
                                 Console.WriteLine("TELEPORTING TO " + teleportLocation.GetBiome().GetName());
 
                                 yourBiomeText = "New biome: " + teleportLocation.GetBiome().GetName() + " (from " + teleportLocation.GetOrigin().GetName() + ")";
-                                yourBiomeTextCounter = 300;
+                                yourBiomeTextCounter = 600;
 
                                 TransitionHandler.SetCurrentBiome(teleportLocation.GetBiome());
                             } else

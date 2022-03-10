@@ -131,7 +131,7 @@ namespace TransitionRandomiser.UI
 
         public static void SetFirstText(String text)
         {
-            if (!initialised)
+            if (!initialised || firstText == null)
             {
                 Initialise();
             }
@@ -139,7 +139,7 @@ namespace TransitionRandomiser.UI
         }
         public static void SetSecondText(String text)
         {
-            if (!initialised)
+            if (!initialised || secondText == null)
             {
                 Initialise();
             }
@@ -148,7 +148,7 @@ namespace TransitionRandomiser.UI
 
         public static void SetBigText(String text)
         {
-            if (!initialised)
+            if (!initialised || bigText == null)
             {
                 Initialise();
             }
@@ -157,7 +157,7 @@ namespace TransitionRandomiser.UI
 
         public static void SetBiomeText(String text)
         {
-            if (!initialised)
+            if (!initialised || biomeText == null)
             {
                 Initialise();
             }
@@ -167,7 +167,7 @@ namespace TransitionRandomiser.UI
         public static void Update()
         {
             float newWidestText = 0;
-            if (!initialised)
+            if (!initialised || firstText == null || secondText == null || biomeText == null || bigText == null)
             {
                 Initialise();
             }

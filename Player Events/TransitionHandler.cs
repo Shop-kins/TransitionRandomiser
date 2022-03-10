@@ -55,17 +55,19 @@ namespace TransitionRandomiser.Player_Events
     {
         private Biome from, to;
 
-        private List<KeyValuePair<Vector3, Vector3>> playerStates;
+        private KeyValuePair<Vector3, Vector3>[] playerStates;
 
         public Transition(Biome from, Biome to, Vector3 targetPosition, Vector3 targetRotation)
         {
             this.from = from;
             this.to = to;
-            playerStates = new List<KeyValuePair<Vector3, Vector3>>();
-            playerStates.Add(new KeyValuePair<Vector3, Vector3>(targetPosition, targetRotation));
+            playerStates = new KeyValuePair<Vector3, Vector3>[]
+            {
+                new KeyValuePair<Vector3, Vector3>(targetPosition, targetRotation)
+            };
         }
 
-        public Transition(Biome from, Biome to, List<KeyValuePair<Vector3, Vector3>> playerStates)
+        public Transition(Biome from, Biome to, KeyValuePair<Vector3, Vector3>[] playerStates)
         {
             this.from = from;
             this.to = to;
@@ -82,7 +84,7 @@ namespace TransitionRandomiser.Player_Events
             return to;
         }
 
-        public List<KeyValuePair<Vector3, Vector3>> GetPlayerStates()
+        public KeyValuePair<Vector3, Vector3>[] GetPlayerStates()
         {
             return playerStates;
         }
@@ -135,7 +137,7 @@ namespace TransitionRandomiser.Player_Events
         static Transition KELPFOREST_GRASSYPLATEAUS = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.GRASSYPLATEAUS, new Vector3(205, -61, 313), new Vector3(23, 80, 0));
         static Transition KELPFOREST_SAFESHALLOWS = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.SAFESHALLOWS, new Vector3(-110, -7, -178), new Vector3(12, 329, 0));
         static Transition KELPFOREST_UNDERWATERISLANDS = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.UNDERWATERISLANDS, new Vector3(-25, -39, 586), new Vector3(19, 344, 0));
-        static Transition KELPFOREST_CRASHZONE = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.CRASHZONE, new Vector3(360, -12, -385), new Vector3(347, 83, 0));
+        static Transition KELPFOREST_CRASHZONE = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.CRASHZONE, new Vector3(382, -11, 369), new Vector3(347, 83, 0));
         static Transition KELPFOREST_CRAGFIELD = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.CRAGFIELD, new Vector3(-189, -50, -660), new Vector3(31, 173, 0));
         static Transition KELPFOREST_GRANDREEF = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.GRANDREEF, new Vector3(-275, -98, -696), new Vector3(58, 228, 0));
         static Transition KELPFOREST_SPARSEREEF = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.SPARSEREEF, new Vector3(-388, -26, -640), new Vector3(41, 202, 0));
@@ -188,6 +190,91 @@ namespace TransitionRandomiser.Player_Events
         static Transition SAFESHALLOWS_KELPFOREST = new Transition(BiomeHandler.SAFESHALLOWS, BiomeHandler.KELPFOREST, new Vector3(-80, -12, -198), new Vector3(14, 166, 0));
         static Transition SAFESHALLOWS_MUSHROOMFOREST = new Transition(BiomeHandler.SAFESHALLOWS, BiomeHandler.MUSHROOMFOREST, new Vector3(542, -90, 121), new Vector3(24, 18, 0));
         static Transition SAFESHALLOWS_CRASHZONE = new Transition(BiomeHandler.SAFESHALLOWS, BiomeHandler.CRASHZONE, new Vector3(406, -9, -290), new Vector3(0, 110, 0));
+
+        static Transition GRANDREEF_FLOATINGISLAND = new Transition(BiomeHandler.GRANDREEF, BiomeHandler.FLOATINGISLAND, new Vector3(-729, 2, -1062), new Vector3(355, 324, 0));
+        static Transition SPARSEREEF_FLOATINGISLAND = new Transition(BiomeHandler.SPARSEREEF, BiomeHandler.FLOATINGISLAND, new Vector3(-765, 6, -950), new Vector3(336, 146, 0));
+        static Transition FLOATINGISLAND_GRANDREEF = new Transition(BiomeHandler.FLOATINGISLAND, BiomeHandler.GRANDREEF, new Vector3(-710, -84, -1075), new Vector3(87, 180, 0));
+        static Transition FLOATINGISLAND_SPARSEREEF = new Transition(BiomeHandler.FLOATINGISLAND, BiomeHandler.SPARSEREEF, new Vector3(-774, -80, -814), new Vector3(60, 350, 0));
+
+        static Transition JELLYSHROOMCAVE_GRASSYPLATEAUS = new Transition(BiomeHandler.JELLYSHROOMCAVE, BiomeHandler.GRASSYPLATEAUS, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3(131, -95, -378), new Vector3(342, 100, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-359, -88, -220), new Vector3(6, 234, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-495, -89, -3), new Vector3(7, 192, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-724, -106, -1), new Vector3(352, 141, 0))
+        });
+        static Transition GRASSYPLATEAUS_JELLYSHROOMCAVE = new Transition(BiomeHandler.GRASSYPLATEAUS, BiomeHandler.JELLYSHROOMCAVE, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3(127, -187, -375), new Vector3(78, 282, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-359, -143, -220), new Vector3(87, 247, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-507, -158, 12), new Vector3(52, 196, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-722, -170, 10), new Vector3(42, 146, 0))
+        });
+
+        static Transition BULBZONE_LOSTRIVER = new Transition(BiomeHandler.BULBZONE, BiomeHandler.LOSTRIVER, new Vector3(947, -550, 932), new Vector3(18, 272, 0));
+        static Transition BLOODKELP_LOSTRIVER = new Transition(BiomeHandler.BLOODKELP, BiomeHandler.LOSTRIVER, new Vector3(-771, -601, 965), new Vector3(2, 202, 0));
+        static Transition BLOODKELPTRENCH_LOSTRIVER = new Transition(BiomeHandler.BLOODKELPTRENCH, BiomeHandler.LOSTRIVER, new Vector3(-1097, -653, -496), new Vector3(32, 177, 0));
+        static Transition GRANDREEF_LOSTRIVER = new Transition(BiomeHandler.GRANDREEF, BiomeHandler.LOSTRIVER, new Vector3(-724, -656, -746), new Vector3(11, 325, 0));
+
+        static Transition LOSTRIVER_BULBZONE = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.BULBZONE, new Vector3(1029, -517, 927), new Vector3(317, 98, 0));
+        static Transition LOSTRIVER_BLOODKELP = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.BLOODKELP, new Vector3(-677, -545, 1170), new Vector3(328, 44, 0));
+        static Transition LOSTRIVER_BLOODKELPTRENCH = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.BLOODKELPTRENCH, new Vector3(-1150, -585, -429), new Vector3(353, 317, 0));
+        static Transition LOSTRIVER_GRANDREEF = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.GRANDREEF, new Vector3(-741, -613, -797), new Vector3(325, 175, 0));
+
+        static Transition INACTIVELAVAZONE_LOSTRIVER = new Transition(BiomeHandler.INACTIVELAVAZONE, BiomeHandler.LOSTRIVER, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3(310, -878, 740), new Vector3(348, 23, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-1303, -896, 438), new Vector3(0, 45, 0))
+        });
+        static Transition INACTIVELAVAZONE_LAVALAKES = new Transition(BiomeHandler.INACTIVELAVAZONE, BiomeHandler.LAVALAKES, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3(74, -1331, 340), new Vector3(57, 192, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-207, -1360, 3), new Vector3(50, 60, 0))
+        });
+        static Transition LOSTRIVER_INACTIVELAVAZONE = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.INACTIVELAVAZONE, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3(296, -1031, 740), new Vector3(74, 205, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-1185, -1026, 424), new Vector3(69, 83, 0))
+        });
+        static Transition LAVALAKES_INACTIVELAVAZONE = new Transition(BiomeHandler.LAVALAKES, BiomeHandler.INACTIVELAVAZONE, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3(58, -1227, 306), new Vector3(353, 204, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-246, -1337, -72), new Vector3(356, 217, 0))
+        });
+
+        static Transition MOUNTAINS_FLOATINGISLAND = new Transition(BiomeHandler.MOUNTAINS, BiomeHandler.FLOATINGISLAND, new Vector3(-662, 5, -1067), new Vector3(357, 178, 0));
+        static Transition FLOATINGISLAND_MOUNTAINS = new Transition(BiomeHandler.FLOATINGISLAND, BiomeHandler.MOUNTAINS, new Vector3(345, 63, 890), new Vector3(353, 349, 0));
+
+        static Transition DUNES_ALIENBASE = new Transition(BiomeHandler.DUNES, BiomeHandler.ALIENBASE, new Vector3(-1240, -397, 1096), new Vector3(6, 54, 0));
+        static Transition BLOODKELP_ALIENBASE = new Transition(BiomeHandler.BLOODKELP, BiomeHandler.ALIENBASE, new Vector3(-594, -552, 1480), new Vector3(21, 283, 0));
+        static Transition MUSHROOMFOREST_ALIENBASE = new Transition(BiomeHandler.MUSHROOMFOREST, BiomeHandler.ALIENBASE, new Vector3(-796, -228, 402), new Vector3(1, 104, 0));
+        static Transition BULBZONE_ALIENBASE = new Transition(BiomeHandler.BULBZONE, BiomeHandler.ALIENBASE, new Vector3(1372, -299, 741), new Vector3(360, 225, 0));
+        static Transition SPARSEREEF_ALIENBASE = new Transition(BiomeHandler.SPARSEREEF, BiomeHandler.ALIENBASE, new Vector3(-888, -305, -790), new Vector3(20, 174, 0));
+        static Transition CRAGFIELD_ALIENBASE = new Transition(BiomeHandler.CRAGFIELD, BiomeHandler.ALIENBASE, new Vector3(-80, -290, -1349), new Vector3(2, 354, 0));
+        static Transition MOUNTAINS_ALIENBASE = new Transition(BiomeHandler.MOUNTAINS, BiomeHandler.ALIENBASE, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3(470, -110, 1233), new Vector3(357, 198, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(392, 6, 1113), new Vector3(360, 141, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(245, -1586, -310), new Vector3(8, 150, 0))
+        });
+        static Transition LOSTRIVER_ALIENBASE = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.ALIENBASE, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-253, -793, 302), new Vector3(4, 183, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-942, -621, 1034), new Vector3(357, 10, 0))
+        });
+        static Transition INACTIVELAVAZONE_ALIENBASE = new Transition(BiomeHandler.INACTIVELAVAZONE, BiomeHandler.ALIENBASE, new Vector3(-36, -1205, 138), new Vector3(3, 260, 0));
+        static Transition LAVALAKES_ALIENBASE = new Transition(BiomeHandler.LAVALAKES, BiomeHandler.ALIENBASE, new Vector3(217, -1450, -261), new Vector3(357, 150, 0));
+
+        static Transition ALIENBASE_DUNES = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.DUNES, new Vector3(-1256, -398, 1098), new Vector3(346, 19, 0));
+        static Transition ALIENBASE_BLOODKELP = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.BLOODKELP, new Vector3(-562, -539, 1489), new Vector3(348, 16, 0));
+        static Transition ALIENBASE_MUSHROOMFOREST = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.MUSHROOMFOREST, new Vector3(-803, -224, 407), new Vector3(357, 268, 0));
+        static Transition ALIENBASE_BULBZONE = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.BULBZONE, new Vector3(1378, -292, 750), new Vector3(360, 25, 0));
+        static Transition ALIENBASE_SPARSEREEF = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.SPARSEREEF, new Vector3(-909, -298, -773), new Vector3(333, 315, 0));
+        static Transition ALIENBASE_CRAGFIELD = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.CRAGFIELD, new Vector3(-80, -282, -1359), new Vector3(31, 180, 0));
+        static Transition ALIENBASE_MOUNTAINS = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.MOUNTAINS, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3(479, -116, 1270), new Vector3(53, 26, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(385, 6, 1117), new Vector3(350, 243, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(458, -165, 1363), new Vector3(348, 154, 0))
+        });
+        static Transition ALIENBASE_LOSTRIVER = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.LOSTRIVER, new KeyValuePair<Vector3, Vector3>[] {
+            new KeyValuePair<Vector3, Vector3>(new Vector3 (-229, -791, 317), new Vector3(5, 70, 0)),
+            new KeyValuePair<Vector3, Vector3>(new Vector3(-940, -614, 1009), new Vector3(355, 149, 0))
+        });
+        static Transition ALIENBASE_INACTIVELAVAZONE = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.INACTIVELAVAZONE, new Vector3(-35, -1198, 151), new Vector3(359, 345, 0));
+        static Transition ALIENBASE_LAVALAKES = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.LAVALAKES, new Vector3(211, -1444, -249), new Vector3(357, 334, 0));
+
 
         public static Transition[] ALL_TRANSITIONS = new Transition[]
         {
@@ -272,13 +359,55 @@ namespace TransitionRandomiser.Player_Events
             SAFESHALLOWS_GRASSYPLATEAUS,
             SAFESHALLOWS_KELPFOREST,
             SAFESHALLOWS_MUSHROOMFOREST,
-            SAFESHALLOWS_CRASHZONE
+            SAFESHALLOWS_CRASHZONE,
+            GRANDREEF_FLOATINGISLAND,
+            SPARSEREEF_FLOATINGISLAND,
+            FLOATINGISLAND_GRANDREEF,
+            FLOATINGISLAND_SPARSEREEF,
+            JELLYSHROOMCAVE_GRASSYPLATEAUS,
+            GRASSYPLATEAUS_JELLYSHROOMCAVE,
+            BULBZONE_LOSTRIVER,
+            BLOODKELP_LOSTRIVER,
+            BLOODKELPTRENCH_LOSTRIVER,
+            GRANDREEF_LOSTRIVER,
+            LOSTRIVER_BULBZONE,
+            LOSTRIVER_BLOODKELP,
+            LOSTRIVER_BLOODKELPTRENCH,
+            LOSTRIVER_GRANDREEF,
+            INACTIVELAVAZONE_LOSTRIVER,
+            INACTIVELAVAZONE_LAVALAKES,
+            LOSTRIVER_INACTIVELAVAZONE,
+            LAVALAKES_INACTIVELAVAZONE,
+            MOUNTAINS_FLOATINGISLAND,
+            FLOATINGISLAND_MOUNTAINS,
+            DUNES_ALIENBASE,
+            BLOODKELP_ALIENBASE,
+            MUSHROOMFOREST_ALIENBASE,
+            BULBZONE_ALIENBASE,
+            SPARSEREEF_ALIENBASE,
+            CRAGFIELD_ALIENBASE,
+            MOUNTAINS_ALIENBASE,
+            LOSTRIVER_ALIENBASE,
+            INACTIVELAVAZONE_ALIENBASE,
+            LAVALAKES_ALIENBASE,
+            ALIENBASE_DUNES,
+            ALIENBASE_BLOODKELP,
+            ALIENBASE_MUSHROOMFOREST,
+            ALIENBASE_BULBZONE,
+            ALIENBASE_SPARSEREEF,
+            ALIENBASE_CRAGFIELD,
+            ALIENBASE_MOUNTAINS,
+            ALIENBASE_LOSTRIVER,
+            ALIENBASE_INACTIVELAVAZONE,
+            ALIENBASE_LAVALAKES
         };
 
         private static Dictionary<Transition, TeleportLocation[]> transitionMap;
 
         private static Biome CurrentBiome = BiomeHandler.SAFESHALLOWS;
         private static Biome PreviousBiome = CurrentBiome;
+
+        private static Boolean initialised = false;
 
         internal static void SetCurrentBiome(Biome Biome, Boolean dontUpdatePreviousBiome = false)
         {
@@ -305,6 +434,11 @@ namespace TransitionRandomiser.Player_Events
             return CurrentBiome;
         }
 
+        public static Boolean IsInitialised()
+        {
+            return initialised;
+        }
+
         internal static void GenerateRandomTransitionMap()
         {
             Console.WriteLine("GENERATING TRANSITION MAP");
@@ -314,7 +448,7 @@ namespace TransitionRandomiser.Player_Events
             for (int i = 0; i < ALL_TRANSITIONS.Length; i++)
             {
                 Transition transition = ALL_TRANSITIONS[i];
-                for (int j = 0; j < transition.GetPlayerStates().Count; j++)
+                for (int j = 0; j < transition.GetPlayerStates().Length; j++)
                 {
                     allLocations.Add(new TeleportLocation(transition.GetTo(), transition.GetPlayerStates()[j].Key, transition.GetPlayerStates()[j].Value, transition.GetFrom(), j));
                 }
@@ -327,7 +461,7 @@ namespace TransitionRandomiser.Player_Events
             {
                 Transition transition = ALL_TRANSITIONS[i];
 
-                TeleportLocation[] locations = new TeleportLocation[transition.GetPlayerStates().Count];
+                TeleportLocation[] locations = new TeleportLocation[transition.GetPlayerStates().Length];
                 Boolean existsInMap = false;
                 foreach (KeyValuePair<Transition, TeleportLocation[]> pair in transitionMap)
                 {
@@ -366,6 +500,12 @@ namespace TransitionRandomiser.Player_Events
                             break;
                         }
                     }
+                    if (oppositeLocationIndex == -1)
+                    {
+                        //Console.WriteLine("0 " + transition.GetFrom().GetName() + " " + transition.GetTo().GetName() + " " + j);
+                        continue;
+                    }
+                    //Console.WriteLine("1 " + oppositeLocationIndex + " " + transition.GetFrom().GetName() + " " + transition.GetTo().GetName());
                     TeleportLocation oppositeLocation = allLocations[oppositeLocationIndex];
 
                     int oppositeIndex = -1;
@@ -377,16 +517,18 @@ namespace TransitionRandomiser.Player_Events
                             break;
                         }
                     }
+                    //Console.WriteLine("2 " + oppositeIndex);
 
-                    int reverseIndex = -1;
+                    int reverseOppositeIndex = -1;
                     for (int b = 0; b < ALL_TRANSITIONS.Length; b++)
                     {
-                        if (ALL_TRANSITIONS[b].GetFrom().GetName() == transition.GetTo().GetName() && ALL_TRANSITIONS[b].GetTo().GetName() == transition.GetFrom().GetName())
+                        if (ALL_TRANSITIONS[b].GetFrom().GetName() == locations[j].GetOrigin().GetName() && ALL_TRANSITIONS[b].GetTo().GetName() == locations[j].GetBiome().GetName())
                         {
-                            reverseIndex = b;
+                            reverseOppositeIndex = b;
                             break;
                         }
                     }
+                    //Console.WriteLine("3 " + reverseOppositeIndex);
 
                     // Find opposite transition in the map
                     Boolean exists = false;
@@ -397,15 +539,15 @@ namespace TransitionRandomiser.Player_Events
                             exists = true;
 
                             int originalIndex = -1;
-                            for (int a = 0; a < ALL_TRANSITIONS[reverseIndex].GetPlayerStates().Count; a++)
+                            for (int a = 0; a < ALL_TRANSITIONS[reverseOppositeIndex].GetPlayerStates().Length; a++)
                             {
-                                if (ALL_TRANSITIONS[reverseIndex].GetPlayerStates()[a].Key == oppositeLocation.GetPosition())
+                                if (ALL_TRANSITIONS[reverseOppositeIndex].GetPlayerStates()[a].Key == locations[j].GetPosition())
                                 {
                                     originalIndex = a;
                                     break;
                                 }
                             }
-                            Console.WriteLine("4 " + originalIndex);
+                            //Console.WriteLine("4 " + originalIndex + " " + pair.Value.Length);
 
                             pair.Value[originalIndex] = oppositeLocation;
                             allLocations.RemoveAt(oppositeLocationIndex);
@@ -417,16 +559,17 @@ namespace TransitionRandomiser.Player_Events
 
                     if (!exists)
                     {
-                        TeleportLocation[] oppositeLocations = new TeleportLocation[ALL_TRANSITIONS[oppositeIndex].GetPlayerStates().Count];
+                        TeleportLocation[] oppositeLocations = new TeleportLocation[ALL_TRANSITIONS[oppositeIndex].GetPlayerStates().Length];
                         int originalIndex = -1;
-                        for (int a = 0; a < ALL_TRANSITIONS[reverseIndex].GetPlayerStates().Count; a++)
+                        for (int a = 0; a < ALL_TRANSITIONS[reverseOppositeIndex].GetPlayerStates().Length; a++)
                         {
-                            if (ALL_TRANSITIONS[reverseIndex].GetPlayerStates()[a].Key == oppositeLocation.GetPosition())
+                            if (ALL_TRANSITIONS[reverseOppositeIndex].GetPlayerStates()[a].Key == locations[j].GetPosition())
                             {
                                 originalIndex = a;
                                 break;
                             }
                         }
+                        //Console.WriteLine("5 " + originalIndex + " " + oppositeLocations.Length);
                         oppositeLocations[originalIndex] = oppositeLocation;
                         allLocations.RemoveAt(oppositeLocationIndex);
                         ignoredIndices.Add(new KeyValuePair<int, int>(oppositeIndex, originalIndex));
@@ -445,9 +588,10 @@ namespace TransitionRandomiser.Player_Events
                 Console.WriteLine(pair.Key.GetFrom().GetName() + " -> " + pair.Key.GetTo().GetName());
                 for (int i = 0; i < pair.Value.Length; i++)
                 {
-                    Console.WriteLine(pair.Value[i].GetBiome().GetName() + " (from " + pair.Value[i].GetBiome().GetName() + ")");
+                    Console.WriteLine(pair.Value[i].GetBiome().GetName() + " (from " + pair.Value[i].GetOrigin().GetName() + ")");
                 }
             }
+            initialised = true;
         }
 
         internal static Transition FindTransition(Biome from, Biome to)
@@ -478,11 +622,6 @@ namespace TransitionRandomiser.Player_Events
 
         internal static TeleportLocation getTeleportPositionForBiomeTransfer(Biome newBiome, Vector3 playerPosition)
         {
-            if (transitionMap == null)
-            {
-                GenerateRandomTransitionMap();
-            }
-
             Transition transition = FindTransition(CurrentBiome, newBiome);
             Transition reverse = FindTransition(newBiome, CurrentBiome);
 
@@ -490,7 +629,7 @@ namespace TransitionRandomiser.Player_Events
 
             int closestLocationToPlayerIndex = -1;
             double closestDistance = Double.MaxValue;
-            for (int i = 0; i < reverse.GetPlayerStates().Count; i++)
+            for (int i = 0; i < reverse.GetPlayerStates().Length; i++)
             {
                 double distance = Vector3.Distance(playerPosition, reverse.GetPlayerStates()[i].Key);
                 if (closestDistance > distance)
