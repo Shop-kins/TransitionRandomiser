@@ -1,32 +1,28 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace TransitionRandomiser.Player_Events
 {
 
+    [Serializable]
     internal class TeleportLocation
     {
         private Biome origin;
         private Biome biome;
-        private Vector3 position;
-        private Vector3 rotation;
-        private int index;
+        private SerialisableVector3 position;
+        private SerialisableVector3 rotation;
 
-        public TeleportLocation(Biome biome, Vector3 position, Vector3 rotation, Biome origin, int index)
+        public TeleportLocation(Biome biome, SerialisableVector3 position, SerialisableVector3 rotation, Biome origin)
         {
             this.biome = biome;
             this.position = position;
             this.rotation = rotation;
             this.origin = origin;
-            this.index = index;
-        }
-
-        public int getIndex()
-        {
-            return index;
         }
 
         public Biome GetOrigin()
@@ -39,35 +35,36 @@ namespace TransitionRandomiser.Player_Events
             return biome;
         }
 
-        public Vector3 GetPosition()
+        public SerialisableVector3 GetPosition()
         {
             return position;
         }
 
-        public Vector3 GetRotation()
+        public SerialisableVector3 GetRotation()
         {
             return rotation;
         }
 
     }
 
+    [Serializable]
     internal class Transition
     {
         private Biome from, to;
 
-        private KeyValuePair<Vector3, Vector3>[] playerStates;
+        private KeyValuePair<SerialisableVector3, SerialisableVector3>[] playerStates;
 
         public Transition(Biome from, Biome to, Vector3 targetPosition, Vector3 targetRotation)
         {
             this.from = from;
             this.to = to;
-            playerStates = new KeyValuePair<Vector3, Vector3>[]
+            playerStates = new KeyValuePair<SerialisableVector3, SerialisableVector3>[]
             {
-                new KeyValuePair<Vector3, Vector3>(targetPosition, targetRotation)
+                new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(targetPosition), new SerialisableVector3(targetRotation))
             };
         }
 
-        public Transition(Biome from, Biome to, KeyValuePair<Vector3, Vector3>[] playerStates)
+        public Transition(Biome from, Biome to, KeyValuePair<SerialisableVector3, SerialisableVector3>[] playerStates)
         {
             this.from = from;
             this.to = to;
@@ -84,9 +81,35 @@ namespace TransitionRandomiser.Player_Events
             return to;
         }
 
-        public KeyValuePair<Vector3, Vector3>[] GetPlayerStates()
+        public KeyValuePair<SerialisableVector3, SerialisableVector3>[] GetPlayerStates()
         {
             return playerStates;
+        }
+
+    }
+
+    [Serializable]
+    internal class SerialisableVector3
+    {
+        public int x, y, z;
+
+        public SerialisableVector3(int x, int y, int z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public SerialisableVector3(Vector3 v)
+        {
+            x = (int) v.x;
+            y = (int) v.y;
+            z = (int) v.z;
+        }
+
+        public Vector3 ToVector3()
+        {
+            return new Vector3(x, y, z);
         }
 
     }
@@ -155,7 +178,7 @@ namespace TransitionRandomiser.Player_Events
 
         static Transition CRASHZONE_BULBZONE = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.BULBZONE, new Vector3(1131, -131, 296), new Vector3(45, 16, 0));
         static Transition CRASHZONE_MUSHROOMFOREST = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.MUSHROOMFOREST, new Vector3(658, -71, 204), new Vector3(41, 356, 0));
-        static Transition CRASHZONE_SAFESHALLOWS = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.SAFESHALLOWS, new Vector3(349, -17, -254), new Vector3(2, 303, 0));
+        static Transition CRASHZONE_SAFESHALLOWS = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.SAFESHALLOWS, new Vector3(388, -11, -219), new Vector3(2, 289, 0));
         static Transition CRASHZONE_KELPFOREST = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.KELPFOREST, new Vector3(308, -22, -378), new Vector3(10, 281, 0));
         static Transition CRASHZONE_GRASSYPLATEAUS = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.GRASSYPLATEAUS, new Vector3(173, -42, -607), new Vector3(37, 285, 0));
         static Transition CRASHZONE_CRAGFIELD = new Transition(BiomeHandler.CRASHZONE, BiomeHandler.CRAGFIELD, new Vector3(22, -126, -1025), new Vector3(34, 214, 0));
@@ -196,17 +219,17 @@ namespace TransitionRandomiser.Player_Events
         static Transition FLOATINGISLAND_GRANDREEF = new Transition(BiomeHandler.FLOATINGISLAND, BiomeHandler.GRANDREEF, new Vector3(-710, -84, -1075), new Vector3(87, 180, 0));
         static Transition FLOATINGISLAND_SPARSEREEF = new Transition(BiomeHandler.FLOATINGISLAND, BiomeHandler.SPARSEREEF, new Vector3(-774, -80, -814), new Vector3(60, 350, 0));
 
-        static Transition JELLYSHROOMCAVE_GRASSYPLATEAUS = new Transition(BiomeHandler.JELLYSHROOMCAVE, BiomeHandler.GRASSYPLATEAUS, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3(131, -95, -378), new Vector3(342, 100, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-359, -88, -220), new Vector3(6, 234, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-495, -89, -3), new Vector3(7, 192, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-724, -106, -1), new Vector3(352, 141, 0))
+        static Transition JELLYSHROOMCAVE_GRASSYPLATEAUS = new Transition(BiomeHandler.JELLYSHROOMCAVE, BiomeHandler.GRASSYPLATEAUS, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(131, -95, -378), new SerialisableVector3(342, 100, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-359, -88, -220), new SerialisableVector3(6, 234, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-495, -89, -3), new SerialisableVector3(7, 192, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-724, -106, -1), new SerialisableVector3(352, 141, 0))
         });
-        static Transition GRASSYPLATEAUS_JELLYSHROOMCAVE = new Transition(BiomeHandler.GRASSYPLATEAUS, BiomeHandler.JELLYSHROOMCAVE, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3(127, -187, -375), new Vector3(78, 282, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-359, -143, -220), new Vector3(87, 247, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-507, -158, 12), new Vector3(52, 196, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-722, -170, 10), new Vector3(42, 146, 0))
+        static Transition GRASSYPLATEAUS_JELLYSHROOMCAVE = new Transition(BiomeHandler.GRASSYPLATEAUS, BiomeHandler.JELLYSHROOMCAVE, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(127, -187, -375), new SerialisableVector3(78, 282, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-359, -143, -220), new SerialisableVector3(87, 247, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-507, -158, 12), new SerialisableVector3(52, 196, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-722, -170, 10), new SerialisableVector3(42, 146, 0))
         });
 
         static Transition BULBZONE_LOSTRIVER = new Transition(BiomeHandler.BULBZONE, BiomeHandler.LOSTRIVER, new Vector3(947, -550, 932), new Vector3(18, 272, 0));
@@ -219,21 +242,21 @@ namespace TransitionRandomiser.Player_Events
         static Transition LOSTRIVER_BLOODKELPTRENCH = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.BLOODKELPTRENCH, new Vector3(-1150, -585, -429), new Vector3(353, 317, 0));
         static Transition LOSTRIVER_GRANDREEF = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.GRANDREEF, new Vector3(-741, -613, -797), new Vector3(325, 175, 0));
 
-        static Transition INACTIVELAVAZONE_LOSTRIVER = new Transition(BiomeHandler.INACTIVELAVAZONE, BiomeHandler.LOSTRIVER, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3(310, -878, 740), new Vector3(348, 23, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-1303, -896, 438), new Vector3(0, 45, 0))
+        static Transition INACTIVELAVAZONE_LOSTRIVER = new Transition(BiomeHandler.INACTIVELAVAZONE, BiomeHandler.LOSTRIVER, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(310, -878, 740), new SerialisableVector3(348, 23, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-1303, -896, 438), new SerialisableVector3(0, 45, 0))
         });
-        static Transition INACTIVELAVAZONE_LAVALAKES = new Transition(BiomeHandler.INACTIVELAVAZONE, BiomeHandler.LAVALAKES, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3(74, -1331, 340), new Vector3(57, 192, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-207, -1360, 3), new Vector3(50, 60, 0))
+        static Transition INACTIVELAVAZONE_LAVALAKES = new Transition(BiomeHandler.INACTIVELAVAZONE, BiomeHandler.LAVALAKES, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(74, -1331, 340), new SerialisableVector3(57, 192, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-207, -1360, 3), new SerialisableVector3(50, 60, 0))
         });
-        static Transition LOSTRIVER_INACTIVELAVAZONE = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.INACTIVELAVAZONE, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3(296, -1031, 740), new Vector3(74, 205, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-1185, -1026, 424), new Vector3(69, 83, 0))
+        static Transition LOSTRIVER_INACTIVELAVAZONE = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.INACTIVELAVAZONE, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(296, -1031, 740), new SerialisableVector3(74, 205, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-1185, -1026, 424), new SerialisableVector3(69, 83, 0))
         });
-        static Transition LAVALAKES_INACTIVELAVAZONE = new Transition(BiomeHandler.LAVALAKES, BiomeHandler.INACTIVELAVAZONE, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3(58, -1227, 306), new Vector3(353, 204, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-246, -1337, -72), new Vector3(356, 217, 0))
+        static Transition LAVALAKES_INACTIVELAVAZONE = new Transition(BiomeHandler.LAVALAKES, BiomeHandler.INACTIVELAVAZONE, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(58, -1227, 306), new SerialisableVector3(353, 204, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-246, -1337, -72), new SerialisableVector3(356, 217, 0))
         });
 
         static Transition MOUNTAINS_FLOATINGISLAND = new Transition(BiomeHandler.MOUNTAINS, BiomeHandler.FLOATINGISLAND, new Vector3(-662, 5, -1067), new Vector3(357, 178, 0));
@@ -245,14 +268,14 @@ namespace TransitionRandomiser.Player_Events
         static Transition BULBZONE_ALIENBASE = new Transition(BiomeHandler.BULBZONE, BiomeHandler.ALIENBASE, new Vector3(1372, -299, 741), new Vector3(360, 225, 0));
         static Transition SPARSEREEF_ALIENBASE = new Transition(BiomeHandler.SPARSEREEF, BiomeHandler.ALIENBASE, new Vector3(-888, -305, -790), new Vector3(20, 174, 0));
         static Transition CRAGFIELD_ALIENBASE = new Transition(BiomeHandler.CRAGFIELD, BiomeHandler.ALIENBASE, new Vector3(-80, -290, -1349), new Vector3(2, 354, 0));
-        static Transition MOUNTAINS_ALIENBASE = new Transition(BiomeHandler.MOUNTAINS, BiomeHandler.ALIENBASE, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3(470, -110, 1233), new Vector3(357, 198, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(392, 6, 1113), new Vector3(360, 141, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(245, -1586, -310), new Vector3(8, 150, 0))
+        static Transition MOUNTAINS_ALIENBASE = new Transition(BiomeHandler.MOUNTAINS, BiomeHandler.ALIENBASE, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(470, -110, 1233), new SerialisableVector3(357, 198, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(392, 6, 1113), new SerialisableVector3(360, 141, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(245, -1586, -310), new SerialisableVector3(8, 150, 0))
         });
-        static Transition LOSTRIVER_ALIENBASE = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.ALIENBASE, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-253, -793, 302), new Vector3(4, 183, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-942, -621, 1034), new Vector3(357, 10, 0))
+        static Transition LOSTRIVER_ALIENBASE = new Transition(BiomeHandler.LOSTRIVER, BiomeHandler.ALIENBASE, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-253, -793, 302), new SerialisableVector3(4, 183, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-942, -621, 1034), new SerialisableVector3(357, 10, 0))
         });
         static Transition INACTIVELAVAZONE_ALIENBASE = new Transition(BiomeHandler.INACTIVELAVAZONE, BiomeHandler.ALIENBASE, new Vector3(-36, -1205, 138), new Vector3(3, 260, 0));
         static Transition LAVALAKES_ALIENBASE = new Transition(BiomeHandler.LAVALAKES, BiomeHandler.ALIENBASE, new Vector3(217, -1450, -261), new Vector3(357, 150, 0));
@@ -263,14 +286,14 @@ namespace TransitionRandomiser.Player_Events
         static Transition ALIENBASE_BULBZONE = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.BULBZONE, new Vector3(1378, -292, 750), new Vector3(360, 25, 0));
         static Transition ALIENBASE_SPARSEREEF = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.SPARSEREEF, new Vector3(-909, -298, -773), new Vector3(333, 315, 0));
         static Transition ALIENBASE_CRAGFIELD = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.CRAGFIELD, new Vector3(-80, -282, -1359), new Vector3(31, 180, 0));
-        static Transition ALIENBASE_MOUNTAINS = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.MOUNTAINS, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3(479, -116, 1270), new Vector3(53, 26, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(385, 6, 1117), new Vector3(350, 243, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(458, -165, 1363), new Vector3(348, 154, 0))
+        static Transition ALIENBASE_MOUNTAINS = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.MOUNTAINS, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(479, -116, 1270), new SerialisableVector3(53, 26, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(385, 6, 1117), new SerialisableVector3(350, 243, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(458, -165, 1363), new SerialisableVector3(348, 154, 0))
         });
-        static Transition ALIENBASE_LOSTRIVER = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.LOSTRIVER, new KeyValuePair<Vector3, Vector3>[] {
-            new KeyValuePair<Vector3, Vector3>(new Vector3 (-229, -791, 317), new Vector3(5, 70, 0)),
-            new KeyValuePair<Vector3, Vector3>(new Vector3(-940, -614, 1009), new Vector3(355, 149, 0))
+        static Transition ALIENBASE_LOSTRIVER = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.LOSTRIVER, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3 (-229, -791, 317), new SerialisableVector3(5, 70, 0)),
+            new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-940, -614, 1009), new SerialisableVector3(355, 149, 0))
         });
         static Transition ALIENBASE_INACTIVELAVAZONE = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.INACTIVELAVAZONE, new Vector3(-35, -1198, 151), new Vector3(359, 345, 0));
         static Transition ALIENBASE_LAVALAKES = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.LAVALAKES, new Vector3(211, -1444, -249), new Vector3(357, 334, 0));
@@ -407,6 +430,8 @@ namespace TransitionRandomiser.Player_Events
         private static Biome CurrentBiome = BiomeHandler.SAFESHALLOWS;
         private static Biome PreviousBiome = CurrentBiome;
 
+        private static TeleportLocation UndoLocation;
+
         private static Boolean initialised = false;
 
         internal static void SetCurrentBiome(Biome Biome, Boolean dontUpdatePreviousBiome = false)
@@ -439,10 +464,39 @@ namespace TransitionRandomiser.Player_Events
             return initialised;
         }
 
+        internal static TeleportLocation GetUndoLocation()
+        {
+            return UndoLocation;
+        }
+
+        internal static void ClearUndoLocation()
+        {
+            UndoLocation = null;
+        }
+
+        internal static string ToBase64String()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                new BinaryFormatter().Serialize(ms, transitionMap);
+                return Convert.ToBase64String(ms.ToArray());
+            }
+        }
+
+        internal static void FromBase64String(String base64string)
+        {
+            byte[] bytes = Convert.FromBase64String(base64string);
+            using (MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length))
+            {
+                ms.Write(bytes, 0, bytes.Length);
+                ms.Position = 0;
+                transitionMap = (Dictionary<Transition, TeleportLocation[]>)(new BinaryFormatter().Deserialize(ms));
+                initialised = true;
+            }
+        }
+
         internal static void GenerateRandomTransitionMap()
         {
-            Console.WriteLine("GENERATING TRANSITION MAP");
-
             // This is horrible code but it works :)
             List<TeleportLocation> allLocations = new List<TeleportLocation>();
             for (int i = 0; i < ALL_TRANSITIONS.Length; i++)
@@ -450,7 +504,7 @@ namespace TransitionRandomiser.Player_Events
                 Transition transition = ALL_TRANSITIONS[i];
                 for (int j = 0; j < transition.GetPlayerStates().Length; j++)
                 {
-                    allLocations.Add(new TeleportLocation(transition.GetTo(), transition.GetPlayerStates()[j].Key, transition.GetPlayerStates()[j].Value, transition.GetFrom(), j));
+                    allLocations.Add(new TeleportLocation(transition.GetTo(), transition.GetPlayerStates()[j].Key, transition.GetPlayerStates()[j].Value, transition.GetFrom()));
                 }
             }
 
@@ -575,7 +629,7 @@ namespace TransitionRandomiser.Player_Events
                         ignoredIndices.Add(new KeyValuePair<int, int>(oppositeIndex, originalIndex));
                         transitionMap.Add(ALL_TRANSITIONS[oppositeIndex], oppositeLocations);
                     }
-
+                    
                 }
                 if (!existsInMap)
                 {
@@ -583,6 +637,13 @@ namespace TransitionRandomiser.Player_Events
                 }
             }
 
+            WriteTransitionLog();
+            initialised = true;
+        }
+
+        internal static void WriteTransitionLog()
+        {
+            Console.WriteLine("TRANSITION LOG");
             foreach (KeyValuePair<Transition, TeleportLocation[]> pair in transitionMap)
             {
                 Console.WriteLine(pair.Key.GetFrom().GetName() + " -> " + pair.Key.GetTo().GetName());
@@ -591,7 +652,6 @@ namespace TransitionRandomiser.Player_Events
                     Console.WriteLine(pair.Value[i].GetBiome().GetName() + " (from " + pair.Value[i].GetOrigin().GetName() + ")");
                 }
             }
-            initialised = true;
         }
 
         internal static Transition FindTransition(Biome from, Biome to)
@@ -620,10 +680,15 @@ namespace TransitionRandomiser.Player_Events
             return null;
         }
 
-        internal static TeleportLocation getTeleportPositionForBiomeTransfer(Biome newBiome, Vector3 playerPosition)
+        internal static TeleportLocation getTeleportPositionForBiomeTransfer(Biome newBiome, Vector3 playerPosition, Biome currentBiome = null)
         {
-            Transition transition = FindTransition(CurrentBiome, newBiome);
-            Transition reverse = FindTransition(newBiome, CurrentBiome);
+            if (currentBiome == null)
+            {
+                currentBiome = CurrentBiome;
+            }
+
+            Transition transition = FindTransition(currentBiome, newBiome);
+            Transition reverse = FindTransition(newBiome, currentBiome);
 
             if (transition == null || reverse == null) return null;
 
@@ -631,7 +696,7 @@ namespace TransitionRandomiser.Player_Events
             double closestDistance = Double.MaxValue;
             for (int i = 0; i < reverse.GetPlayerStates().Length; i++)
             {
-                double distance = Vector3.Distance(playerPosition, reverse.GetPlayerStates()[i].Key);
+                double distance = Vector3.Distance(playerPosition, reverse.GetPlayerStates()[i].Key.ToVector3());
                 if (closestDistance > distance)
                 {
                     closestDistance = distance;
@@ -639,7 +704,12 @@ namespace TransitionRandomiser.Player_Events
                 }
             }
 
-            return GetTeleportLocationOfTransition(transition, closestLocationToPlayerIndex);
+            TeleportLocation result = GetTeleportLocationOfTransition(transition, closestLocationToPlayerIndex);
+            if (currentBiome.GetName() == CurrentBiome.GetName())
+            {
+                UndoLocation = getTeleportPositionForBiomeTransfer(result.GetOrigin(), result.GetPosition().ToVector3(), result.GetBiome());
+            }
+            return result;
         }
 
     }

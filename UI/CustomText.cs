@@ -11,19 +11,34 @@ namespace TransitionRandomiser.UI
         private Text textText;
         private uGUI_TextFade textFade;
         private ContentSizeFitter textFitter;
+        private Shadow textShadow;
 
         private float xOffset, yOffset;
+        private int fontSize;
+        private TextAnchor alignment;
+        private String text;
 
         private bool useGlobalTextWidth;
 
         public CustomText(string text, bool useGlobalTextWidth = true, int fontSize = 20, TextAnchor alignment = TextAnchor.MiddleLeft)
         {
             this.useGlobalTextWidth = useGlobalTextWidth;
+            this.fontSize = fontSize;
+            this.alignment = alignment;
+            this.text = text;
+            CreateTextComponents();
+        }
 
+        public void CreateTextComponents()
+        {
             textObject = new GameObject("TwitchInteractionTimerCooldown");
             textText = textObject.AddComponent<Text>();
             textFade = textObject.AddComponent<uGUI_TextFade>();
             textFitter = textObject.AddComponent<ContentSizeFitter>();
+            textShadow = textObject.AddComponent<Shadow>();
+
+            textShadow.effectColor = new Color(0, 0, 0, 0.75f);
+            textShadow.effectDistance = new Vector2(2, -2);
 
             textFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
             textFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -64,10 +79,21 @@ namespace TransitionRandomiser.UI
 
         public void SetText(string text)
         {
-            textFade.SetText(text, false);
-            //AlignText();
-            textFade.SetState(true);
-            textObject.SetActive(true);
+            this.text = text;
+            try
+            {
+                textFade.SetText(text, false);
+                //AlignText();
+                textFade.SetState(true);
+                textObject.SetActive(true);
+            } catch (Exception e)
+            {
+                CreateTextComponents();
+                textFade.SetText(text, false);
+                //AlignText();
+                textFade.SetState(true);
+                textObject.SetActive(true);
+            }
         }
 
         public float getTextWidth()
@@ -84,8 +110,15 @@ namespace TransitionRandomiser.UI
             float width = getTextWidth();
 
             float widestText = useGlobalTextWidth ? CustomUI.widestText : getTextWidth();
+            float offset = useGlobalTextWidth ? CustomUI.ActualTextHeight() : 0;
 
-            float x = Screen.width / 2 - (Screen.width / 1920f * widestText) - xOffset - CustomUI.ActualTextHeight();
+            float widestTextFactor = (Screen.width / 1920f * widestText);
+            if (textText.alignment == TextAnchor.MiddleCenter)
+            {
+                widestTextFactor = 0;
+            }
+
+            float x = Screen.width / 2 - widestTextFactor - xOffset - offset;
             float y = -Screen.height / 2 - yOffset + CustomUI.ActualTextHeight();
 
             x *= scaleX;
@@ -186,16 +219,16 @@ namespace TransitionRandomiser.UI
                     newWidestText = secondText.getTextWidth();
                 }
 
-                bigText.Update((int) (Screen.width / 2 - bigText.getTextWidth()), -Screen.height / 2);
-                biomeText.Update((int)(Screen.width / 2 - biomeText.getTextWidth()), -Screen.height + ActualTextHeight() * 3);
+                bigText.Update(Screen.width / 2, -Screen.height / 2 - ActualTextHeight());
+                biomeText.Update(Screen.width / 2, -Screen.height + ActualTextHeight() * 3);
             }
             catch (Exception)
             {
                 Initialise();
                 firstText.Update(0, -ActualTextHeight() * 2);
                 secondText.Update(0, -ActualTextHeight() * 1);
-                bigText.Update((int)(Screen.width / 2 - bigText.getTextWidth()), -Screen.height / 2);
-                biomeText.Update((int)(Screen.width / 2 - biomeText.getTextWidth()), -Screen.height + ActualTextHeight() * 3);
+                bigText.Update(Screen.width / 2, -Screen.height / 2 - ActualTextHeight());
+                biomeText.Update(Screen.width / 2, -Screen.height + ActualTextHeight() * 3);
             }
 
             widestText = newWidestText;
