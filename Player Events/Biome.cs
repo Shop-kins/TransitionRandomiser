@@ -2,6 +2,7 @@
 
 namespace TransitionRandomiser.Player_Events
 {
+    [Serializable]
     class Biome
     {
         private String name;

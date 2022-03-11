@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Reflection;
 using HarmonyLib;
 using TransitionRandomiser.UI;
 using UnityEngine;
@@ -27,11 +29,6 @@ namespace TransitionRandomiser.Player_Events
             [HarmonyPostfix]
             public static void Postfix()
             {
-                if (!TransitionHandler.IsInitialised())
-                {
-                    TransitionHandler.GenerateRandomTransitionMap();
-                }
-
                 CustomUI.SetBigText("");
                 CustomUI.SetFirstText("Current biome: " + TransitionHandler.GetCurrentBiome().GetName());
                 if (TransitionHandler.GetUndoLocation() != null)
@@ -138,10 +135,10 @@ namespace TransitionRandomiser.Player_Events
 
                 Player.main.playerController.inputEnabled = false;
                 Player.main.playerController.SetEnabled(false);
-                Player.main.transform.position = location.GetPosition();
+                Player.main.transform.position = location.GetPosition().ToVector3();
                 MainCameraControl.main.rotationX = 0;
                 MainCameraControl.main.rotationY = 0;
-                Player.main.transform.rotation = Quaternion.Euler(location.GetRotation());
+                Player.main.transform.rotation = Quaternion.Euler(location.GetRotation().ToVector3());
                 Player.main.WaitForTeleportation();
                 Player.main.OnPlayerPositionCheat();
                 biomeChangeDone = false;
@@ -167,6 +164,44 @@ namespace TransitionRandomiser.Player_Events
                 }
             }
 
+        }
+
+        [HarmonyPatch(typeof(Player))]
+        [HarmonyPatch("Awake")]
+        internal class Player_Awake_Patch
+        {
+            [HarmonyPostfix]
+            public static void Postfix()
+            {
+                isDead = true;
+
+                Console.WriteLine("PLAYER AWAKE");
+                String baseDirectory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
+                String slot = SaveLoadManager.main.GetCurrentSlot();
+                String filePath = Path.Combine(baseDirectory, slot + "-data.dat");
+
+                if (SaveLoadManager.main.GetGameInfo(slot) == null || !File.Exists(filePath))
+                {
+                    // New save, regenerate
+                    //Console.WriteLine("GENERATING " + filePath);
+                    TransitionHandler.GenerateRandomTransitionMap();
+                    String base64str = TransitionHandler.ToBase64String();
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+                    File.Create(filePath).Close();
+                    File.WriteAllText(filePath, base64str);
+                }
+                else
+                {
+                    // Load
+                    //Console.WriteLine("LOADING " + filePath);
+                    String base64str = File.ReadAllText(filePath);
+                    TransitionHandler.FromBase64String(base64str);
+                }
+                //TransitionHandler.WriteTransitionLog();
+            }
         }
 
         [HarmonyPatch(typeof(Player))]
