@@ -58,22 +58,25 @@ namespace TransitionRandomiser.Player_Events
                     }
 
                     // Stabilisation Counter
-                    if (lastFrameBiome.GetName() == newBiome.GetName())
+                    if (Player.main.playerController.inputEnabled)
                     {
-                        stabilisationCounter++;
-                    }
-                    else
-                    {
-                        if (newBiome.GetName() == TransitionHandler.GetCurrentBiome().GetName() && biomeChangeDone)
+                        if (lastFrameBiome.GetName() == newBiome.GetName())
                         {
-                            UnfreezeStats();
+                            stabilisationCounter++;
                         }
                         else
                         {
-                            FreezeStats();
+                            if (newBiome.GetName() == TransitionHandler.GetCurrentBiome().GetName() && biomeChangeDone)
+                            {
+                                UnfreezeStats();
+                            }
+                            else
+                            {
+                                FreezeStats();
+                            }
+                            stabilisationCounter = 0;
+                            lastFrameBiome = newBiome;
                         }
-                        stabilisationCounter = 0;
-                        lastFrameBiome = newBiome;
                     }
 
                     // Biome change worked?
@@ -96,7 +99,7 @@ namespace TransitionRandomiser.Player_Events
                         isDead = false;
                     }
                     // Normal update stuff
-                    else if (!isDead)
+                    else if (!isDead && Player.main.playerController.inputEnabled)
                     {
                         if (TransitionHandler.GetCurrentBiome().GetName() != newBiome.GetName() && biomeChangeDone)
                         {
