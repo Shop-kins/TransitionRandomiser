@@ -400,6 +400,8 @@ namespace TransitionRandomiser.Player_Events
         private static Biome CurrentBiome = BiomeHandler.SAFESHALLOWS;
         private static Biome PreviousBiome = CurrentBiome;
 
+        private static TeleportLocation UndoLocation;
+
         private static Boolean initialised = false;
 
         internal static void SetCurrentBiome(Biome Biome, Boolean dontUpdatePreviousBiome = false)
@@ -430,6 +432,16 @@ namespace TransitionRandomiser.Player_Events
         public static Boolean IsInitialised()
         {
             return initialised;
+        }
+
+        internal static TeleportLocation GetUndoLocation()
+        {
+            return UndoLocation;
+        }
+
+        internal static void ClearUndoLocation()
+        {
+            UndoLocation = null;
         }
 
         internal static void GenerateRandomTransitionMap()
@@ -613,10 +625,15 @@ namespace TransitionRandomiser.Player_Events
             return null;
         }
 
-        internal static TeleportLocation getTeleportPositionForBiomeTransfer(Biome newBiome, Vector3 playerPosition)
+        internal static TeleportLocation getTeleportPositionForBiomeTransfer(Biome newBiome, Vector3 playerPosition, Biome currentBiome = null)
         {
-            Transition transition = FindTransition(CurrentBiome, newBiome);
-            Transition reverse = FindTransition(newBiome, CurrentBiome);
+            if (currentBiome == null)
+            {
+                currentBiome = CurrentBiome;
+            }
+
+            Transition transition = FindTransition(currentBiome, newBiome);
+            Transition reverse = FindTransition(newBiome, currentBiome);
 
             if (transition == null || reverse == null) return null;
 
@@ -632,7 +649,12 @@ namespace TransitionRandomiser.Player_Events
                 }
             }
 
-            return GetTeleportLocationOfTransition(transition, closestLocationToPlayerIndex);
+            TeleportLocation result = GetTeleportLocationOfTransition(transition, closestLocationToPlayerIndex);
+            if (currentBiome.GetName() == CurrentBiome.GetName())
+            {
+                UndoLocation = getTeleportPositionForBiomeTransfer(result.GetOrigin(), result.GetPosition(), result.GetBiome());
+            }
+            return result;
         }
 
     }

@@ -11,6 +11,7 @@ namespace TransitionRandomiser.UI
         private Text textText;
         private uGUI_TextFade textFade;
         private ContentSizeFitter textFitter;
+        private Shadow textShadow;
 
         private float xOffset, yOffset;
         private int fontSize;
@@ -34,6 +35,10 @@ namespace TransitionRandomiser.UI
             textText = textObject.AddComponent<Text>();
             textFade = textObject.AddComponent<uGUI_TextFade>();
             textFitter = textObject.AddComponent<ContentSizeFitter>();
+            textShadow = textObject.AddComponent<Shadow>();
+
+            textShadow.effectColor = new Color(0, 0, 0, 0.75f);
+            textShadow.effectDistance = new Vector2(2, -2);
 
             textFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
             textFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;

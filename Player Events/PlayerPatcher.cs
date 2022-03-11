@@ -34,7 +34,13 @@ namespace TransitionRandomiser.Player_Events
 
                 CustomUI.SetBigText("");
                 CustomUI.SetFirstText("Current biome: " + TransitionHandler.GetCurrentBiome().GetName());
-                CustomUI.SetSecondText("Previous biome: " + TransitionHandler.GetPreviousBiome().GetName());
+                if (TransitionHandler.GetUndoLocation() != null)
+                {
+                    CustomUI.SetSecondText("Press U to undo the last teleport");
+                } else
+                {
+                    CustomUI.SetSecondText("No undo available");
+                }
                 if (yourBiomeTextCounter <= 0)
                 {
                     yourBiomeText = "";
@@ -44,9 +50,15 @@ namespace TransitionRandomiser.Player_Events
 
                 try
                 {
-                    var main = Player.main;
-                    Biome newBiome = BiomeHandler.GetBiomeByGameID(main.GetBiomeString().ToLower());
+                    Biome newBiome = BiomeHandler.GetBiomeByGameID(Player.main.GetBiomeString().ToLower());
                     if (newBiome == null) return;
+
+                    if (Input.GetKeyDown(KeyCode.U))
+                    {
+                        Teleport(TransitionHandler.GetUndoLocation());
+                        TransitionHandler.ClearUndoLocation();
+                        return;
+                    }
 
                     // Stabilisation Counter
                     if (lastFrameBiome.GetName() == newBiome.GetName())
@@ -94,7 +106,7 @@ namespace TransitionRandomiser.Player_Events
                             if (stabilisationCounter > stabilisationTime)
                             {
                                 Console.WriteLine("CHANGE FROM " + TransitionHandler.GetCurrentBiome().GetName() + " TO " + newBiome.GetName());
-                                TeleportLocation teleportLocation = TransitionHandler.getTeleportPositionForBiomeTransfer(newBiome, main.lastPosition);
+                                TeleportLocation teleportLocation = TransitionHandler.getTeleportPositionForBiomeTransfer(newBiome, Player.main.lastPosition);
                                 stabilisationCounter = 0;
 
                                 if (teleportLocation == null)
@@ -104,22 +116,7 @@ namespace TransitionRandomiser.Player_Events
                                     return;
                                 }
 
-                                Player.main.playerController.inputEnabled = false;
-                                Player.main.playerController.SetEnabled(false);
-                                Player.main.transform.position = teleportLocation.GetPosition();
-                                MainCameraControl.main.rotationX = 0;
-                                MainCameraControl.main.rotationY = 0;
-                                Player.main.transform.rotation = Quaternion.Euler(teleportLocation.GetRotation());
-                                Player.main.WaitForTeleportation();
-                                Player.main.OnPlayerPositionCheat();
-                                biomeChangeDone = false;
-
-                                Console.WriteLine("TELEPORTING TO " + teleportLocation.GetBiome().GetName());
-
-                                yourBiomeText = "New biome: " + teleportLocation.GetBiome().GetName() + " (from " + teleportLocation.GetOrigin().GetName() + ")";
-                                yourBiomeTextCounter = 600;
-
-                                TransitionHandler.SetCurrentBiome(teleportLocation.GetBiome());
+                                Teleport(teleportLocation);
                             } else
                             {
                                 CustomUI.SetBigText("Teleporting in " + Math.Round((stabilisationTime - stabilisationCounter) / 60.0, 0));
@@ -133,6 +130,28 @@ namespace TransitionRandomiser.Player_Events
                     Console.WriteLine(e.StackTrace);
                 }
                 CustomUI.Update();
+            }
+
+            public static void Teleport(TeleportLocation location)
+            {
+                if (location == null) return;
+
+                Player.main.playerController.inputEnabled = false;
+                Player.main.playerController.SetEnabled(false);
+                Player.main.transform.position = location.GetPosition();
+                MainCameraControl.main.rotationX = 0;
+                MainCameraControl.main.rotationY = 0;
+                Player.main.transform.rotation = Quaternion.Euler(location.GetRotation());
+                Player.main.WaitForTeleportation();
+                Player.main.OnPlayerPositionCheat();
+                biomeChangeDone = false;
+
+                Console.WriteLine("TELEPORTING TO " + location.GetBiome().GetName());
+
+                yourBiomeText = "New biome: " + location.GetBiome().GetName() + " (from " + location.GetOrigin().GetName() + ")";
+                yourBiomeTextCounter = 600;
+
+                TransitionHandler.SetCurrentBiome(location.GetBiome());
             }
 
             public static void FreezeStats()
