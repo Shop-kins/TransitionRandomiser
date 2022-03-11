@@ -34,7 +34,8 @@ namespace TransitionRandomiser.Player_Events
                 if (TransitionHandler.GetUndoLocation() != null)
                 {
                     CustomUI.SetSecondText("Press U to undo the last teleport");
-                } else
+                }
+                else
                 {
                     CustomUI.SetSecondText("No undo available");
                 }
@@ -55,6 +56,24 @@ namespace TransitionRandomiser.Player_Events
                         Teleport(TransitionHandler.GetUndoLocation());
                         TransitionHandler.ClearUndoLocation();
                         return;
+                    }
+
+                    // Moonpool swimming fix
+                    PrecursorMoonPoolTrigger moonpoolTrigger = GameObject.FindObjectOfType<PrecursorMoonPoolTrigger>();
+                    if (TransitionHandler.GetCurrentBiome().GetName() != BiomeHandler.ALIENBASE.GetName())
+                    {
+                        if (moonpoolTrigger != null)
+                        {
+                            moonpoolTrigger.checkPlayer = null;
+                        }
+                        Player.main.precursorOutOfWater = false;
+                    }
+                    else if (Player.main.GetBiomeString().ToLower().Contains("precursor_gun"))
+                    {
+                        if (moonpoolTrigger != null)
+                        {
+                            moonpoolTrigger.checkPlayer = Player.main;
+                        }
                     }
 
                     // Stabilisation Counter
@@ -79,15 +98,13 @@ namespace TransitionRandomiser.Player_Events
                         }
                     }
 
-                    // Biome change worked?
+                    // Biome change done
                     if (!biomeChangeDone && newBiome.GetName() == TransitionHandler.GetCurrentBiome().GetName() && Player.main.playerController.inputEnabled)
                     {
                         biomeChangeDone = true;
                         UnfreezeStats();
-                        //Player.main.isUnderwater.Update(true);
-                        Player.main.UpdateMotorMode();
+                        Player.main.teleportingLoopSound.Stop();
                         Player.main.OnPlayerPositionCheat();
-                        //Player.main.SetMotorMode(Player.MotorMode.Dive);
                     }
 
                     // Death stuff
@@ -117,7 +134,8 @@ namespace TransitionRandomiser.Player_Events
                                 }
 
                                 Teleport(teleportLocation);
-                            } else
+                            }
+                            else
                             {
                                 CustomUI.SetBigText("Teleporting in " + Math.Round((stabilisationTime - stabilisationCounter) / 60.0, 0));
                             }
@@ -138,12 +156,22 @@ namespace TransitionRandomiser.Player_Events
 
                 Player.main.playerController.inputEnabled = false;
                 Player.main.playerController.SetEnabled(false);
-                Player.main.transform.position = location.GetPosition().ToVector3();
+
+                if (Player.main.GetVehicle())
+                {
+                    Player.main.GetVehicle().TeleportVehicle(location.GetPosition().ToVector3(), Quaternion.Euler(location.GetRotation().ToVector3()));
+                }
+                else
+                {
+                    Player.main.transform.position = location.GetPosition().ToVector3();
+                    Player.main.transform.rotation = Quaternion.Euler(location.GetRotation().ToVector3());
+                }
+
                 MainCameraControl.main.rotationX = 0;
                 MainCameraControl.main.rotationY = 0;
-                Player.main.transform.rotation = Quaternion.Euler(location.GetRotation().ToVector3());
                 Player.main.WaitForTeleportation();
                 Player.main.OnPlayerPositionCheat();
+                Player.main.teleportingLoopSound.Play();
                 biomeChangeDone = false;
 
                 Console.WriteLine("TELEPORTING TO " + location.GetBiome().GetName());
@@ -203,7 +231,7 @@ namespace TransitionRandomiser.Player_Events
                     String base64str = File.ReadAllText(filePath);
                     TransitionHandler.FromBase64String(base64str);
                 }
-                //TransitionHandler.WriteTransitionLog();
+                TransitionHandler.WriteTransitionLog();
             }
         }
 
