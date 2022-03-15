@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using HarmonyLib;
+using Story;
 using TransitionRandomiser.UI;
 using UnityEngine;
 
@@ -22,6 +23,9 @@ namespace TransitionRandomiser.Player_Events
         private static int yourBiomeTextCounter = 0;
 
         private static String baseDirectory, saveFilePath;
+
+        private static Boolean precursorPortalUsed = false;
+        private static Vector3 positionBeforePrecursorTeleporter;
 
         [HarmonyPatch(typeof(Player))]
         [HarmonyPatch("Update")]
@@ -107,6 +111,10 @@ namespace TransitionRandomiser.Player_Events
                             stabilisationCounter = 0;
                             lastFrameBiome = newBiome;
                         }
+                        if (stabilisationCounter > stabilisationTime * 1.25 && precursorPortalUsed)
+                        {
+                            precursorPortalUsed = false;
+                        }
                     }
 
                     // Biome change done
@@ -116,10 +124,19 @@ namespace TransitionRandomiser.Player_Events
                         UnfreezeStats();
                         Player.main.teleportingLoopSound.Stop();
                         Player.main.OnPlayerPositionCheat();
+
+                        if (newBiome.GetName() == BiomeHandler.ALIENBASE.GetName() && Player.main.GetBiomeString().ToLower().Contains("prison"))
+                        {
+                            PrecursorAquariumPlatformTrigger trigger = GameObject.FindObjectOfType<PrecursorAquariumPlatformTrigger>();
+                            if (trigger)
+                            {
+                                trigger.OnTriggerEnter(Player.main.gameObject.GetComponent<Collider>());
+                            }
+                        }
                     }
 
                     // Death stuff
-                    if (isDead && Player.main.playerController.inputEnabled)
+                    if (isDead && Player.main.playerController.inputEnabled && LargeWorldStreamer.main.IsWorldSettled())
                     {
                         TransitionHandler.SetCurrentBiome(newBiome);
                         UnfreezeStats();
@@ -134,7 +151,10 @@ namespace TransitionRandomiser.Player_Events
                             if (stabilisationCounter > stabilisationTime)
                             {
                                 Console.WriteLine("CHANGE FROM " + TransitionHandler.GetCurrentBiome().GetName() + " TO " + newBiome.GetName());
-                                TeleportLocation teleportLocation = TransitionHandler.getTeleportPositionForBiomeTransfer(newBiome, Player.main.lastPosition);
+
+                                Vector3 lastPosition = precursorPortalUsed ? positionBeforePrecursorTeleporter : Player.main.lastPosition;
+                                precursorPortalUsed = false;
+                                TeleportLocation teleportLocation = TransitionHandler.getTeleportPositionForBiomeTransfer(newBiome, lastPosition);
                                 stabilisationCounter = 0;
 
                                 if (teleportLocation == null)
@@ -254,6 +274,19 @@ namespace TransitionRandomiser.Player_Events
             public static void Postfix()
             {
                 isDead = true;
+            }
+        }
+
+        [HarmonyPatch(typeof(PrecursorTeleporter))]
+        [HarmonyPatch("SetWarpPosition")]
+        internal class Teleporter_SetWarpPosition_Patch
+        {
+            [HarmonyPrefix]
+            public static Boolean Prefix()
+            {
+                precursorPortalUsed = true;
+                positionBeforePrecursorTeleporter = Player.main.lastPosition;
+                return true;
             }
         }
 

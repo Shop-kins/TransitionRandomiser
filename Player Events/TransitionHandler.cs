@@ -317,7 +317,7 @@ namespace TransitionRandomiser.Player_Events
             new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(479, -116, 1270), new SerialisableVector3(53, 26, 0)),
             new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(385, 6, 1117), new SerialisableVector3(350, 243, 0)),
             new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(458, -165, 1363), new SerialisableVector3(348, 154, 0))
-        }, new String[] { "G", "H", "I" });
+        }, new String[] { "I", "H", "G" });
         static Transition ALIENBASE_LOSTRIVER = new Transition(BiomeHandler.ALIENBASE, BiomeHandler.LOSTRIVER, new KeyValuePair<SerialisableVector3, SerialisableVector3>[] {
             new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3 (-229, -791, 317), new SerialisableVector3(5, 70, 0)),
             new KeyValuePair<SerialisableVector3, SerialisableVector3>(new SerialisableVector3(-940, -614, 1009), new SerialisableVector3(355, 149, 0))

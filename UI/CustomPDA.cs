@@ -21,6 +21,19 @@ namespace TransitionRandomiser.UI
             Language.main.strings.Remove("EncyPath_TransitionData");
             Language.main.strings.Add("EncyPath_TransitionData", "Transition Data");
 
+            uGUI_EncyclopediaTab tab = null;
+            try
+            {
+                Boolean open = Player.main.GetPDA().isOpen;
+                if (!open)
+                    Player.main.GetPDA().Open();
+                tab = Player.main.GetPDA().ui.GetTab(PDATab.Encyclopedia) as uGUI_EncyclopediaTab;
+                if (!open)
+                    Player.main.GetPDA().Close();
+                UWE.Utils.lockCursor = true;
+            }
+            catch (Exception e) { }
+
             foreach (Biome biome in BiomeHandler.BIOMES)
             {
                 String id = "transitionData" + biome.GetName().Replace(" ", "");
@@ -59,6 +72,10 @@ namespace TransitionRandomiser.UI
                     data.image = LoadPNG(Path.Combine(directory, "maps", biome.GetName().ToLower().Replace(" ", "") + ".png"));
 
                     PDAEncyclopedia.mapping.Add(id, data);
+                }
+                else if (tab && tab.activeEntry && tab.activeEntry.key == id)
+                {
+                    tab.DisplayEntry(id);
                 }
             }
         }
