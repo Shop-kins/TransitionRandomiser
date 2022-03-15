@@ -171,7 +171,7 @@ namespace TransitionRandomiser.Player_Events
         static Transition UNDERWATERISLANDS_BLOODKELP = new Transition(BiomeHandler.UNDERWATERISLANDS, BiomeHandler.BLOODKELP, new Vector3(-384, -235, 1142), new Vector3(35, 287, 0), "A");
         static Transition UNDERWATERISLANDS_MOUNTAINS = new Transition(BiomeHandler.UNDERWATERISLANDS, BiomeHandler.MOUNTAINS, new Vector3(159, -85, 980), new Vector3(349, 59, 0), "B");
         static Transition UNDERWATERISLANDS_KELPFOREST = new Transition(BiomeHandler.UNDERWATERISLANDS, BiomeHandler.KELPFOREST, new Vector3(-10, -16, 502), new Vector3(6, 149, 0), "C");
-        static Transition UNDERWATERISLANDS_GRASSYPLATEAUS = new Transition(BiomeHandler.UNDERWATERISLANDS, BiomeHandler.GRASSYPLATEAUS, new Vector3(-190, -43, 640), new Vector3(21, 243, 0), "D");
+        static Transition UNDERWATERISLANDS_GRASSYPLATEAUS = new Transition(BiomeHandler.UNDERWATERISLANDS, BiomeHandler.GRASSYPLATEAUS, new Vector3(-232, -49, 665), new Vector3(24, 236, 0), "D");
         static Transition UNDERWATERISLANDS_MUSHROOMFOREST = new Transition(BiomeHandler.UNDERWATERISLANDS, BiomeHandler.MUSHROOMFOREST, new Vector3(-605, -95, 860), new Vector3(18, 221, 0), "E");
 
         static Transition BULBZONE_MOUNTAINS = new Transition(BiomeHandler.BULBZONE, BiomeHandler.MOUNTAINS, new Vector3(866, -187, 1004), new Vector3(42, 289, 0), "A");
