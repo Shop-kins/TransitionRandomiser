@@ -1,0 +1,11 @@
+{
+    "Id": "TransitionRandomiser",
+    "DisplayName": "TransitionRandomiser",
+    "Author": "salvner & Yoshie2000",
+    "Version": "1.0.0",
+    "Requires": [],
+    "Enable": true,
+    "AssemblyName": "SubnauticaTransitionRandomiser.dll",
+    "EntryMethod": "TransitionRandomiser.MainPatcher.Patch",
+    "Config": {}
+}

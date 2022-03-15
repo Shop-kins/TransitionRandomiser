@@ -29,27 +29,27 @@ namespace TransitionRandomiser.Player_Events
     class BiomeHandler
     {
         //public static Biome LIFEPOD = new Biome("lifepod", new string[] { "lifepod" });
-        public static Biome SAFESHALLOWS = new Biome("safeshallows", new string[] { "safeshallows", "lifepod" });
-        public static Biome GRASSYPLATEAUS = new Biome("grassyplateaus", new string[] { "grassyplateaus" });
-        public static Biome KELPFOREST = new Biome("kelpforest", new string[] { "kelpforest" });
-        public static Biome JELLYSHROOMCAVE = new Biome("jellyshroomcaves", new string[] { "jellyshroomcaves" });
-        public static Biome DUNES = new Biome("dunes", new string[] { "dunes" });
-        public static Biome MUSHROOMFOREST = new Biome("mushroomforest", new string[] { "mushroomforest" });
-        public static Biome BLOODKELP = new Biome("bloodkelp", new string[] { "bloodkelptwo" });
-        public static Biome MOUNTAINS = new Biome("mountains", new string[] { "mountains" });
-        public static Biome UNDERWATERISLANDS = new Biome("underwaterislands", new string[] { "underwaterislands" });
-        public static Biome BULBZONE = new Biome("bulbzone", new string[] { "kooshzone" });
-        public static Biome CRASHZONE = new Biome("crashzone", new string[] { "crashzone", "crashedship", "generatorroom" });
-        public static Biome CRAGFIELD = new Biome("cragfield", new string[] { "cragfield" });
-        public static Biome GRANDREEF = new Biome("grandreef", new string[] { "grandreef", "deepgrandreef" });
-        public static Biome SPARSEREEF = new Biome("sparsereef", new string[] { "sparsereef" });
-        public static Biome SEATREADERPATH = new Biome("seatreaderpath", new string[] { "seatreaderpath" });
-        public static Biome BLOODKELPTRENCH = new Biome("bloodkelptrench", new string[] { "bloodkelp" });
-        public static Biome FLOATINGISLAND = new Biome("floatingisland", new string[] { "floatingisland", "floatingislandcaveteleporter" });
-        public static Biome LOSTRIVER = new Biome("lostriver", new string[] { "lostriver" });
-        public static Biome INACTIVELAVAZONE = new Biome("inactivelavazone", new string[] { "ilzcorridor", "ilzchamber", "lavapit", "ilzcastlechamber", "ilzcastletunnel" });
-        public static Biome LAVALAKES = new Biome("lavalakes", new string[] { "lavafalls", "lavalakes" });
-        public static Biome ALIENBASE = new Biome("alienbase", new string[] { "precursorcache", "precursor", "precursorcave", "prison" });
+        public static Biome SAFESHALLOWS = new Biome("Safe Shallows", new string[] { "safeshallows", "lifepod" });
+        public static Biome GRASSYPLATEAUS = new Biome("Grassy Plateaus", new string[] { "grassyplateaus" });
+        public static Biome KELPFOREST = new Biome("Kelp Forest", new string[] { "kelpforest" });
+        public static Biome JELLYSHROOMCAVE = new Biome("Jellyshroom Cave", new string[] { "jellyshroomcaves" });
+        public static Biome DUNES = new Biome("Dunes", new string[] { "dunes" });
+        public static Biome MUSHROOMFOREST = new Biome("Mushroom Forest", new string[] { "mushroomforest" });
+        public static Biome BLOODKELP = new Biome("Bloodkelp", new string[] { "bloodkelptwo" });
+        public static Biome MOUNTAINS = new Biome("Mountains", new string[] { "mountains" });
+        public static Biome UNDERWATERISLANDS = new Biome("Underwater Islands", new string[] { "underwaterislands" });
+        public static Biome BULBZONE = new Biome("Bulbzone", new string[] { "kooshzone" });
+        public static Biome CRASHZONE = new Biome("Crashzone", new string[] { "crashzone", "crashedship", "generatorroom" });
+        public static Biome CRAGFIELD = new Biome("Cragfield", new string[] { "cragfield" });
+        public static Biome GRANDREEF = new Biome("Grand Reef", new string[] { "grandreef", "deepgrandreef" });
+        public static Biome SPARSEREEF = new Biome("Sparse Reef", new string[] { "sparsereef" });
+        public static Biome SEATREADERPATH = new Biome("Sea Treaders Path", new string[] { "seatreaderpath" });
+        public static Biome BLOODKELPTRENCH = new Biome("Bloodkelp Trench", new string[] { "bloodkelp" });
+        public static Biome FLOATINGISLAND = new Biome("Floating Island", new string[] { "floatingisland", "floatingislandcaveteleporter" });
+        public static Biome LOSTRIVER = new Biome("Lost River", new string[] { "lostriver" });
+        public static Biome INACTIVELAVAZONE = new Biome("Inactive Lavazone", new string[] { "ilzcorridor", "ilzchamber", "lavapit", "ilzcastlechamber", "ilzcastletunnel" });
+        public static Biome LAVALAKES = new Biome("Lava Lakes", new string[] { "lavafalls", "lavalakes" });
+        public static Biome ALIENBASE = new Biome("Alien Base", new string[] { "precursorcache", "precursor", "precursorcave", "prison" });
 
         public static Biome[] BIOMES = new Biome[]
         {

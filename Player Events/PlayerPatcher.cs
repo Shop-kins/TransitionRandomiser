@@ -14,12 +14,14 @@ namespace TransitionRandomiser.Player_Events
         private static Boolean biomeChangeDone = true;
 
         private static Biome lastFrameBiome = BiomeHandler.SAFESHALLOWS;
-        private static long stabilisationCounter = 0;
+        private static double stabilisationCounter = 0;
 
-        private static int stabilisationTime = 300;
+        private static double stabilisationTime = 5;
 
         private static String yourBiomeText = "";
         private static int yourBiomeTextCounter = 0;
+
+        private static String baseDirectory, saveFilePath;
 
         [HarmonyPatch(typeof(Player))]
         [HarmonyPatch("Update")]
@@ -29,6 +31,13 @@ namespace TransitionRandomiser.Player_Events
             [HarmonyPostfix]
             public static void Postfix()
             {
+                CustomUI.Update();
+                if (IngameMenu.main.gameObject.activeInHierarchy)
+                {
+                    CustomUI.SetSecondText("Waiting for unpause");
+                    return;
+                }
+
                 CustomUI.SetBigText("");
                 CustomUI.SetFirstText("Current biome: " + TransitionHandler.GetCurrentBiome().GetName());
                 if (TransitionHandler.GetUndoLocation() != null)
@@ -45,6 +54,8 @@ namespace TransitionRandomiser.Player_Events
                 }
                 yourBiomeTextCounter--;
                 CustomUI.SetBiomeText(yourBiomeText);
+
+                CustomPDA.AddPDAEntry(TransitionHandler.GetCurrentBiome(), false);
 
                 try
                 {
@@ -81,7 +92,7 @@ namespace TransitionRandomiser.Player_Events
                     {
                         if (lastFrameBiome.GetName() == newBiome.GetName())
                         {
-                            stabilisationCounter++;
+                            stabilisationCounter += Time.deltaTime;
                         }
                         else
                         {
@@ -137,7 +148,7 @@ namespace TransitionRandomiser.Player_Events
                             }
                             else
                             {
-                                CustomUI.SetBigText("Teleporting in " + Math.Round((stabilisationTime - stabilisationCounter) / 60.0, 0));
+                                CustomUI.SetBigText("Teleporting in " + Math.Round(stabilisationTime - stabilisationCounter, 0));
                             }
                         }
                     }
@@ -147,7 +158,6 @@ namespace TransitionRandomiser.Player_Events
                     Console.WriteLine("Failed to invoke action " + e.Message);
                     Console.WriteLine(e.StackTrace);
                 }
-                CustomUI.Update();
             }
 
             public static void Teleport(TeleportLocation location)
@@ -180,6 +190,11 @@ namespace TransitionRandomiser.Player_Events
                 yourBiomeTextCounter = 600;
 
                 TransitionHandler.SetCurrentBiome(location.GetBiome());
+                location.SetKnownToPlayer(true);
+                TransitionHandler.GetUndoLocation().SetKnownToPlayer(true);
+                SaveTransitionsToFile();
+                CustomPDA.CreatePDAEntries(baseDirectory);
+                CustomPDA.AddPDAEntry(location.GetBiome(), true);
             }
 
             public static void FreezeStats()
@@ -207,31 +222,26 @@ namespace TransitionRandomiser.Player_Events
                 isDead = true;
 
                 Console.WriteLine("PLAYER AWAKE");
-                String baseDirectory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
+                baseDirectory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
                 String slot = SaveLoadManager.main.GetCurrentSlot();
-                String filePath = Path.Combine(baseDirectory, slot + "-data.dat");
+                saveFilePath = Path.Combine(baseDirectory, slot + "-data.dat");
 
-                if (SaveLoadManager.main.GetGameInfo(slot) == null || !File.Exists(filePath))
+                if (SaveLoadManager.main.GetGameInfo(slot) == null || !File.Exists(saveFilePath))
                 {
                     // New save, regenerate
                     //Console.WriteLine("GENERATING " + filePath);
                     TransitionHandler.GenerateRandomTransitionMap();
-                    String base64str = TransitionHandler.ToBase64String();
-                    if (File.Exists(filePath))
-                    {
-                        File.Delete(filePath);
-                    }
-                    File.Create(filePath).Close();
-                    File.WriteAllText(filePath, base64str);
+                    SaveTransitionsToFile();
                 }
                 else
                 {
                     // Load
                     //Console.WriteLine("LOADING " + filePath);
-                    String base64str = File.ReadAllText(filePath);
+                    String base64str = File.ReadAllText(saveFilePath);
                     TransitionHandler.FromBase64String(base64str);
                 }
                 TransitionHandler.WriteTransitionLog();
+                CustomPDA.CreatePDAEntries(baseDirectory);
             }
         }
 
@@ -246,6 +256,18 @@ namespace TransitionRandomiser.Player_Events
                 isDead = true;
             }
         }
+
+        public static void SaveTransitionsToFile()
+        {
+            String base64str = TransitionHandler.ToBase64String();
+            if (File.Exists(saveFilePath))
+            {
+                File.Delete(saveFilePath);
+            }
+            File.Create(saveFilePath).Close();
+            File.WriteAllText(saveFilePath, base64str);
+        }
+
     }
 
 }
