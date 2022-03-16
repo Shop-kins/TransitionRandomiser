@@ -135,9 +135,9 @@ namespace TransitionRandomiser.Player_Events
 
         public SerialisableVector3(Vector3 v)
         {
-            x = (int) v.x;
-            y = (int) v.y;
-            z = (int) v.z;
+            x = (int)v.x;
+            y = (int)v.y;
+            z = (int)v.z;
         }
 
         public Vector3 ToVector3()
@@ -686,7 +686,7 @@ namespace TransitionRandomiser.Player_Events
                         ignoredIndices.Add(new KeyValuePair<int, int>(oppositeIndex, originalIndex));
                         transitionMap.Add(ALL_TRANSITIONS[oppositeIndex], oppositeLocations);
                     }
-                    
+
                 }
                 if (!existsInMap)
                 {
@@ -703,8 +703,76 @@ namespace TransitionRandomiser.Player_Events
                 }
             }
 
+            if (CheckForSoftlock())
+            {
+                GenerateRandomTransitionMap();
+                return;
+            }
+
             WriteTransitionLog();
             initialised = true;
+        }
+
+        internal static Boolean CheckForSoftlock()
+        {
+            List<TeleportLocation> notVisited = new List<TeleportLocation>();
+            List<TeleportLocation> stack = new List<TeleportLocation>();
+            foreach (KeyValuePair<Transition, TeleportLocation[]> pair in transitionMap)
+            {
+                Transition transition = pair.Key;
+                for (int j = 0; j < pair.Value.Length; j++)
+                {
+                    if (transition.GetFrom().GetName() == BiomeHandler.SAFESHALLOWS.GetName())
+                    {
+                        stack.Add(pair.Value[j]);
+                    }
+                    notVisited.Add(pair.Value[j]);
+                }
+            }
+
+            while (stack.Count > 0)
+            {
+                if (notVisited.Count == 0) break;
+
+                TeleportLocation l = stack[0];
+                stack.RemoveAt(0);
+
+                for (int i = 0; i < notVisited.Count; i++)
+                {
+                    TeleportLocation other = notVisited[i];
+
+                    if (l.GetBiome().GetName() == BiomeHandler.ALIENBASE.GetName())
+                    {
+                        notVisited.RemoveAt(i);
+                        // Don't assume that the alien bases are all interconnected
+                        break;
+                    }
+
+                    if (other.GetBiome().GetName() == l.GetBiome().GetName() && other.GetOrigin().GetName() == l.GetOrigin().GetName() && other.GetPosition().ToVector3() == l.GetPosition().ToVector3())
+                    {
+                        // Not visited yet, add all outgoing transitions
+                        foreach (KeyValuePair<Transition, TeleportLocation[]> pair in transitionMap)
+                        {
+                            Transition transition = pair.Key;
+                            if (transition.GetFrom().GetName() == l.GetBiome().GetName())
+                            {
+                                for (int j = 0; j < pair.Value.Length; j++)
+                                {
+                                    // Add all neighbours
+                                    stack.Add(pair.Value[j]);
+                                }
+                            }
+                        }
+
+                        notVisited.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+
+            Console.WriteLine("SOFTLOCK DETECTION: " + notVisited.Count + " / " + stack.Count);
+
+            return notVisited.Count > 0;
         }
 
         internal static void WriteTransitionLog()
