@@ -722,6 +722,7 @@ namespace TransitionRandomiser.Player_Events
                 Transition transition = pair.Key;
                 for (int j = 0; j < pair.Value.Length; j++)
                 {
+                    if (transition.GetFrom().GetName() == BiomeHandler.ALIENBASE.GetName()) continue;
                     if (transition.GetFrom().GetName() == BiomeHandler.SAFESHALLOWS.GetName())
                     {
                         stack.Add(pair.Value[j]);
@@ -741,15 +742,15 @@ namespace TransitionRandomiser.Player_Events
                 {
                     TeleportLocation other = notVisited[i];
 
-                    if (l.GetBiome().GetName() == BiomeHandler.ALIENBASE.GetName())
-                    {
-                        notVisited.RemoveAt(i);
-                        // Don't assume that the alien bases are all interconnected
-                        break;
-                    }
-
                     if (other.GetBiome().GetName() == l.GetBiome().GetName() && other.GetOrigin().GetName() == l.GetOrigin().GetName() && other.GetPosition().ToVector3() == l.GetPosition().ToVector3())
                     {
+                        if (l.GetBiome().GetName() == BiomeHandler.ALIENBASE.GetName())
+                        {
+                            notVisited.RemoveAt(i);
+                            // Don't assume that the alien bases are all interconnected
+                            break;
+                        }
+
                         // Not visited yet, add all outgoing transitions
                         foreach (KeyValuePair<Transition, TeleportLocation[]> pair in transitionMap)
                         {
