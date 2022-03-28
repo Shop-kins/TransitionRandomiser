@@ -49,7 +49,7 @@ namespace TransitionRandomiser.Player_Events
         public static Biome LOSTRIVER = new Biome("Lost River", new string[] { "lostriver" });
         public static Biome INACTIVELAVAZONE = new Biome("Inactive Lavazone", new string[] { "ilzcorridor", "ilzchamber", "lavapit", "ilzcastlechamber", "ilzcastletunnel" });
         public static Biome LAVALAKES = new Biome("Lava Lakes", new string[] { "lavafalls", "lavalakes" });
-        public static Biome ALIENBASE = new Biome("Alien Base", new string[] { "precursorcache", "precursor", "precursorcave", "prison" });
+        public static Biome ALIENBASE = new Biome("Alien Base", new string[] { "precursorcache", "precursorgun", "precursor", "precursorcave", "prison" });
 
         public static Biome[] BIOMES = new Biome[]
         {
