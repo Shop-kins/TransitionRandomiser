@@ -193,7 +193,7 @@ namespace TransitionRandomiser.Player_Events
         static Transition KELPFOREST_GRASSYPLATEAUS = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.GRASSYPLATEAUS, new Vector3(205, -61, 313), new Vector3(23, 80, 0), "C");
         static Transition KELPFOREST_SAFESHALLOWS = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.SAFESHALLOWS, new Vector3(-110, -7, -178), new Vector3(12, 329, 0), "D");
         static Transition KELPFOREST_UNDERWATERISLANDS = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.UNDERWATERISLANDS, new Vector3(-25, -39, 586), new Vector3(19, 344, 0), "E");
-        static Transition KELPFOREST_CRASHZONE = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.CRASHZONE, new Vector3(382, -11, 369), new Vector3(347, 83, 0), "F");
+        static Transition KELPFOREST_CRASHZONE = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.CRASHZONE, new Vector3(382, -11, -369), new Vector3(347, 83, 0), "F");
         static Transition KELPFOREST_CRAGFIELD = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.CRAGFIELD, new Vector3(-189, -50, -660), new Vector3(31, 173, 0), "G");
         static Transition KELPFOREST_GRANDREEF = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.GRANDREEF, new Vector3(-275, -98, -696), new Vector3(58, 228, 0), "H");
         static Transition KELPFOREST_SPARSEREEF = new Transition(BiomeHandler.KELPFOREST, BiomeHandler.SPARSEREEF, new Vector3(-388, -26, -640), new Vector3(41, 202, 0), "I");

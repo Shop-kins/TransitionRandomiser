@@ -15,24 +15,28 @@ namespace TransitionRandomiser.UI
     class CustomPDA
     {
 
+        private static uGUI_EncyclopediaTab tab = null;
+
         public static void CreatePDAEntries(String directory)
         {
 
             Language.main.strings.Remove("EncyPath_TransitionData");
             Language.main.strings.Add("EncyPath_TransitionData", "Transition Data");
 
-            uGUI_EncyclopediaTab tab = null;
-            try
+            if (tab == null)
             {
-                Boolean open = Player.main.GetPDA().isOpen;
-                if (!open)
-                    Player.main.GetPDA().Open();
-                tab = Player.main.GetPDA().ui.GetTab(PDATab.Encyclopedia) as uGUI_EncyclopediaTab;
-                if (!open)
-                    Player.main.GetPDA().Close();
-                UWE.Utils.lockCursor = true;
+                try
+                {
+                    Boolean open = Player.main.GetPDA().isOpen;
+                    if (!open)
+                        Player.main.GetPDA().Open();
+                    tab = Player.main.GetPDA().ui.GetTab(PDATab.Encyclopedia) as uGUI_EncyclopediaTab;
+                    if (!open)
+                        Player.main.GetPDA().Close();
+                    UWE.Utils.lockCursor = true;
+                }
+                catch (Exception e) { }
             }
-            catch (Exception e) { }
 
             foreach (Biome biome in BiomeHandler.BIOMES)
             {

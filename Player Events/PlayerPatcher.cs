@@ -41,6 +41,11 @@ namespace TransitionRandomiser.Player_Events
                     CustomUI.SetSecondText("Waiting for unpause");
                     return;
                 }
+                if (Player.main.cinematicModeActive)
+                {
+                    CustomUI.SetSecondText("Waiting for animation to end");
+                    return;
+                }
 
                 CustomUI.SetBigText("");
                 CustomUI.SetFirstText("Current biome: " + TransitionHandler.GetCurrentBiome().GetName());
@@ -80,14 +85,24 @@ namespace TransitionRandomiser.Player_Events
                         if (moonpoolTrigger != null)
                         {
                             moonpoolTrigger.checkPlayer = null;
+                            if (moonpoolTrigger.checkVehicles != null)
+                                moonpoolTrigger.checkVehicles.Clear();
                         }
                         Player.main.precursorOutOfWater = false;
+                        if (Player.main.GetVehicle())
+                        {
+                            Player.main.GetVehicle().precursorOutOfWater = false;
+                        }
                     }
                     else if (Player.main.GetBiomeString().ToLower().Contains("precursor_gun"))
                     {
                         if (moonpoolTrigger != null)
                         {
                             moonpoolTrigger.checkPlayer = Player.main;
+                            if (Player.main.GetVehicle() && moonpoolTrigger.checkVehicles != null)
+                            {
+                                moonpoolTrigger.checkVehicles.Add(Player.main.GetVehicle());
+                            }
                         }
                     }
 
@@ -274,6 +289,7 @@ namespace TransitionRandomiser.Player_Events
             public static void Postfix()
             {
                 isDead = true;
+                TransitionHandler.ClearUndoLocation();
             }
         }
 
