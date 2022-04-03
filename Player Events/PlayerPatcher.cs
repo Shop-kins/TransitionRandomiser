@@ -293,6 +293,36 @@ namespace TransitionRandomiser.Player_Events
             }
         }
 
+        [HarmonyPatch(typeof(AtmosphereVolume))]
+        [HarmonyPatch("OnTriggerEnter")]
+        internal class AtmosphereVolume_OnTriggerEnter_Patch
+        {
+            [HarmonyPrefix]
+            public static Boolean Prefix(ref Collider c, AtmosphereVolume __instance)
+            {
+                if (c.gameObject == Player.mainObject || ((Player.main.inSeamoth || Player.main.inExosuit) && CheckIfGameObjectIsChildOfOther(c.gameObject, Player.main.currentMountedVehicle.gameObject)))
+                {
+                    __instance.PushSettings();
+                }
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(AtmosphereVolume))]
+        [HarmonyPatch("OnTriggerExit")]
+        internal class AtmosphereVolume_OnTriggerExit_Patch
+        {
+            [HarmonyPrefix]
+            public static Boolean Prefix(ref Collider c, AtmosphereVolume __instance)
+            {
+                if (c.gameObject == Player.mainObject || ((Player.main.inSeamoth || Player.main.inExosuit) && CheckIfGameObjectIsChildOfOther(c.gameObject, Player.main.currentMountedVehicle.gameObject)))
+                {
+                    __instance.PopSettings();
+                }
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(PrecursorTeleporter))]
         [HarmonyPatch("SetWarpPosition")]
         internal class Teleporter_SetWarpPosition_Patch
@@ -315,6 +345,16 @@ namespace TransitionRandomiser.Player_Events
             }
             File.Create(saveFilePath).Close();
             File.WriteAllText(saveFilePath, base64str);
+        }
+
+        public static Boolean CheckIfGameObjectIsChildOfOther(GameObject obj, GameObject parent)
+        {
+            if (!obj.transform.parent) return false;
+            if (obj.transform.parent == parent.transform)
+            {
+                return true;
+            }
+            return CheckIfGameObjectIsChildOfOther(obj.transform.parent.gameObject, parent);
         }
 
     }
