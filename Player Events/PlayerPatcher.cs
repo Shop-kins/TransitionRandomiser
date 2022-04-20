@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using HarmonyLib;
-using Story;
 using TransitionRandomiser.UI;
 using UnityEngine;
 
@@ -26,6 +26,9 @@ namespace TransitionRandomiser.Player_Events
 
         private static Boolean precursorPortalUsed = false;
         private static Vector3 positionBeforePrecursorTeleporter;
+
+        public static PrecursorMoonPoolTrigger moonpoolTrigger;
+        public static float moonpoolTriggerLastUpdated;
 
         [HarmonyPatch(typeof(Player))]
         [HarmonyPatch("Update")]
@@ -79,7 +82,11 @@ namespace TransitionRandomiser.Player_Events
                     }
 
                     // Moonpool swimming fix
-                    PrecursorMoonPoolTrigger moonpoolTrigger = GameObject.FindObjectOfType<PrecursorMoonPoolTrigger>();
+                    if (Time.time - moonpoolTriggerLastUpdated > 1)
+                    {
+                        moonpoolTrigger = null;
+                    }
+
                     if (TransitionHandler.GetCurrentBiome().GetName() != BiomeHandler.ALIENBASE.GetName())
                     {
                         if (moonpoolTrigger != null)
@@ -333,6 +340,18 @@ namespace TransitionRandomiser.Player_Events
                 precursorPortalUsed = true;
                 positionBeforePrecursorTeleporter = Player.main.lastPosition;
                 return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(PrecursorMoonPoolTrigger))]
+        [HarmonyPatch("Update")]
+        internal class MoonpoolTrigger_Update
+        {
+            [HarmonyPostfix]
+            public static void Postfix(PrecursorMoonPoolTrigger __instance)
+            {
+                moonpoolTrigger = __instance;
+                moonpoolTriggerLastUpdated = Time.time;
             }
         }
 
