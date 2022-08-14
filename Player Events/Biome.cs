@@ -29,7 +29,7 @@ namespace TransitionRandomiser.Player_Events
     class BiomeHandler
     {
         //public static Biome LIFEPOD = new Biome("lifepod", new string[] { "lifepod" });
-        public static Biome SAFESHALLOWS = new Biome("Safe Shallows", new string[] { "safeshallows", "lifepod" });
+        public static Biome SAFESHALLOWS = new Biome("Safe Shallows", new string[] { "safeshallows", /*"lifepod"*/ });
         public static Biome GRASSYPLATEAUS = new Biome("Grassy Plateaus", new string[] { "grassyplateaus" });
         public static Biome KELPFOREST = new Biome("Kelp Forest", new string[] { "kelpforest" });
         public static Biome JELLYSHROOMCAVE = new Biome("Jellyshroom Cave", new string[] { "jellyshroomcaves" });
